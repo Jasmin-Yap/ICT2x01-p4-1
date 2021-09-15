@@ -21,7 +21,7 @@
 
 <body class="">
     <div class="wrapper ">
-        <div class="sidebar" data-color="purple" data-background-color="black">
+        <div class="sidebar" data-color="orange" data-background-color="black">
             <div class="logo"><a class="simple-text logo-normal">
                     2x01
                 </a></div>
@@ -33,6 +33,14 @@
                         <a class="nav-link" href="./dashboard">
                             <i class="material-icons">dashboard</i>
                             <p>Dashboard</p>
+                        </a>
+                    </li>
+                    {% block nav_maze %}
+                    <li class="nav-item ">
+                    {% endblock %}
+                        <a class="nav-link" href="/maze">
+                            <i class="material-icons">settings</i>
+                            <p>Maze</p>
                         </a>
                     </li>
                     {% block nav_ref %}
