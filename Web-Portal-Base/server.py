@@ -7,6 +7,10 @@ app = Flask(__name__)
 def dashboard():
     return render_template('dashboard.html')
 
+@app.route('/maze')
+def maze():
+    return render_template('maze.html')
+
 @app.route('/ref')
 def extra():
     return render_template('extra.html')
