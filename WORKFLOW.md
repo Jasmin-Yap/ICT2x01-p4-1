@@ -5,3 +5,4 @@
 5. after reviewer approverd, merge feature branch into dev
 6. delete feature branch
 7. test
+2. do feature work only in your own feature branch
