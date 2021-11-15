@@ -1,10 +1,10 @@
 class Token:
-    def __init__(self, code = None):
-        self.code = code
+    def __init__(self, token = None):
+        self.__token = token
 
-    def get_code(self):
-        return self.code
+    def get_token(self):
+        return self.__token
 
-    def set_code(self, code):
-        self.code = code
+    def set_token(self, token):
+        self.__token = token
     
