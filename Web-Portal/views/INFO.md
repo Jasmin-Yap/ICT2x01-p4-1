@@ -1,1 +1,0 @@
-This folder contains the logic to create the views
