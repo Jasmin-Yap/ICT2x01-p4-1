@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 from controllers import *
 
-app = Flask(__name__, template_folder="views")
+app = Flask(__name__)
 
 @app.route('/')
 def connection():
