@@ -1,6 +1,6 @@
 import sys
 from flask import Flask, render_template
-from controllers.token_controller import TokenController
+from controllers import token_controller
 import logging
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
@@ -8,7 +8,7 @@ logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 app = Flask(__name__)
 
 #generate auth token variable
-token = TokenController()
+token = token_controller.TokenController()
 
 @app.route('/')
 def connection():
