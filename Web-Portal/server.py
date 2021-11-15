@@ -5,9 +5,10 @@ from controllers import token_controller
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
 app = Flask(__name__)
+app.register_blueprint(token_controller.simple_page)
 
 #generate auth token variable
-token = token_controller.TokenController()
+token = token_controller
 
 @app.route('/')
 def connection():
