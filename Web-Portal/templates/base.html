@@ -16,7 +16,9 @@
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS Files -->
+
     <link href="./static/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+    {% block css %}{% endblock %}
 </head>
 
 <body class="">
@@ -41,6 +43,14 @@
                         <a class="nav-link" href="/maze">
                             <i class="material-icons">settings</i>
                             <p>Maze</p>
+                        </a>
+                    </li>
+                    {% block nav_scoreboard %}
+                    <li class="nav-item ">
+                        {% endblock %}
+                        <a class="nav-link" href="/scoreboard">
+                            <i class="material-icons">settings</i>
+                            <p>Scoreboard</p>
                         </a>
                     </li>
                     {% block nav_ref %}
