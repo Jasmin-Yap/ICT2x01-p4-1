@@ -26,7 +26,7 @@ def disconnect():
     return verify_address()
 
 
-@app.route('/connection2', method=['GET', 'POST'])
+@app.route('/connection2', methods=['GET', 'POST'])
 def form():
     if request.method == 'POST':
         host = request.form['ipInput']

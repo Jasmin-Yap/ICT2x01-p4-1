@@ -9,7 +9,7 @@ def connection():
     return render_template('connection.html')
 
 
-@app.route('/connection')
+@app.route('/connection', methods=['GET', 'POST'])
 def connection2():
     return render_template('connection.html')
 
