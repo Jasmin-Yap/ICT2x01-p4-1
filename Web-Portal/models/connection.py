@@ -12,5 +12,5 @@ class Connection:
     def set_ip(self, ip):
         self.__ip = ip
 
-    def set_token(self, port):
+    def set_port(self, port):
         self.__port = port
