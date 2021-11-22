@@ -1,7 +1,7 @@
 class Connection:
     def __init__(self, ip="", port=""):
-        self.__ip = ""
-        self.__port = ""
+        self.__ip = "0.0.0.0"
+        self.__port = "0"
 
     def get_ip(self):
         return self.__ip

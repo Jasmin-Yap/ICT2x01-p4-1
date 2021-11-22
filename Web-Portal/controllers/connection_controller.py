@@ -1,11 +1,11 @@
-from models.connection import Connection
-from flask import Flask, render_template, redirect, url_for, request
-import socket
+import models.connection as conn_mod
+from flask import Flask, render_template, request, redirect, url_for
+import requests
 
 
 app = Flask(__name__)
 
-conn = Connection()
+conn = conn_mod.Connection()
 
 
 def connect_to_car(ip, port):
@@ -26,17 +26,14 @@ def disconnect():
     return verify_address()
 
 
-@app.route('/connection2', methods=['GET', 'POST'])
+@app.route('/connection', methods=['GET', 'POST'])
 def form():
+    r = requests.post("http://192.168.4.1")
     if request.method == 'POST':
-        host = request.form['ipInput']
-        port = request.form['portInput']
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((host, port))
-        s.sendall(b'Hello, world')
-        data = s.recv(1024)
-        s.close()
-        print('Received', repr(data))
+        #address = "http://" + request.form['ipInput'] + ":" + request.form['portInput'] + "/"
+        address = "http://192.168.4.1/"
+        testDat = {'Speed': 10, 'Distance': 5}
+        print(requests.get(address))
 
         #ip = request.form['ipInput']
         #port = request.form['portInput']
