@@ -185,21 +185,8 @@
                     Controls</h4>
             </div>
             <div class="card-body">
-                <form>
-                    <div class="row">
-                        <div class="col">
-                            <label for="speedInput">Set Speed (cm/s)</label>
-                            <input type="text" class="form-control" id="speedInput" placeholder="25" disabled>
-                        </div>
-                        <div class="col">
-                            <label for="distanceInput">Minimum Distance to nearest obstacle (cm)</label>
-                            <input type="text" class="form-control" id="distanceInput"
-                                placeholder="3" disabled>
-                        </div>
-                    </div>
-                    <br><br><br><br><br><br><br><br><br><br><br><br>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+                 {% block blockly %}
+                {% endblock %}
             </div>
         </div>
     </div>
