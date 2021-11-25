@@ -1,34 +1,20 @@
-from flask import Flask, render_template, request
-from controllers import *
-import models.connection as conn_mod
-import requests
+import sys, logging, gc, copy
+from flask import Flask, render_template
+from controllers import connection_controller
 
 app = Flask(__name__)
-conn = conn_mod.Connection()
+app.register_blueprint(connection_controller.connection_page)
 
 
 @app.route('/')
 def connection():
+    details = connection_controller.verify_address()
     conn_details = {
-        'ip': conn.get_ip(),
-        'port': conn.get_port()
+        'ip': details[0],
+        'port': details[1]
     }
-
-    return render_template('connection.html', conn=conn_details)
-
-
-@app.route('/connection', methods=['GET', 'POST'])
-def connection2():
-    if request.method == 'POST':
-        address = "http://" + request.form['ipInput'] + ":" + request.form['portInput'] + "/"
-        # address = "http://192.168.4.1/"
-        testDat = {'Speed': 10, 'Distance': 5}
-        requests.post(address, testDat)
-
-        return render_template('dashboard.html')
-    else:
-        return render_template('dashboard.html')
+    return render_template('connection.html', address=conn_details)
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=5000, debug=True)
+    app.run(host='127.0.0.1', port=8000, debug=True)

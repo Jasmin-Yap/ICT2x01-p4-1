@@ -1,11 +1,8 @@
-import models.connection as conn_mod
-from flask import Flask, render_template, request, redirect, url_for
+from models.connection import Connection
+from flask import Flask, render_template, request, redirect, url_for, Blueprint
 import requests
 
-
-app = Flask(__name__)
-
-conn = conn_mod.Connection()
+conn = Connection()
 
 
 def connect_to_car(ip, port):
@@ -17,7 +14,8 @@ def connect_to_car(ip, port):
 def verify_address():
     # server.logging.debug(self.auth_token.get_code())
     # server.logging.debug(code)
-    return conn.get_ip() + ":" + connection.get_port()
+    details = [conn.get_ip(), conn.get_port()]
+    return details
 
 
 def disconnect():
@@ -26,18 +24,16 @@ def disconnect():
     return verify_address()
 
 
-@app.route('/connection', methods=['GET', 'POST'])
-def form():
-    r = requests.post("http://192.168.4.1")
-    if request.method == 'POST':
-        #address = "http://" + request.form['ipInput'] + ":" + request.form['portInput'] + "/"
-        address = "http://192.168.4.1/"
-        testDat = {'Speed': 10, 'Distance': 5}
-        print(requests.get(address))
+connection_page = Blueprint('connection_page', __name__)
 
-        #ip = request.form['ipInput']
-        #port = request.form['portInput']
-        #render_template('dashboard.html')
+
+@connection_page.route('/connection', methods=['GET', 'POST'])
+def connectionPage():
+    if request.method == 'POST':
+        address = "http://" + request.form['ipInput'] + ":" + request.form['portInput'] + "/"
+        #address = "http://192.168.4.1/"
+        testDat = {'Speed': 10, 'Distance': 5}
+        #requests.post(address, testDat)
 
         return render_template('dashboard.html')
     else:
