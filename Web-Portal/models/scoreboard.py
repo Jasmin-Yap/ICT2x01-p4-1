@@ -1,9 +1,36 @@
+import pandas as pd
+from datetime import datetime
+
+
 class Scoreboard:
-    def __init__(self, scoreboard=None):
-        self.__scoreboard = scoreboard
+    def __init__(self, data=None, score=[], attempt=[]):
+        self.__date = datetime.today().strftime('%d-%m-%Y')
+        self.__data = data
+        self.__score = score
+        self.__attempt = attempt
 
-    def get_scoreboard(self):
-        return self.__scoreboard
+    def get_date(self):
+        return self.__date
 
-    def set_scoreboard(self, scoreboard):
-        self.__scoreboard = scoreboard
+    def set_data(self, data):
+        self.__data = pd.read_csv(data)
+
+    def get_data(self):
+        return self.__data
+
+    def set_attempt(self, attempt):
+        self.__attempt.clear()
+        for i in range(len(attempt)):
+            self.__attempt.append(attempt.iloc[i:i + 1, 0:1])
+            self.__attempt[i] = self.__attempt[i].to_string(index=False, header=False)
+
+    def get_attempt(self):
+        return self.__attempt
+
+    def set_score(self, score):
+        for i in range(len(score)):
+            self.__score.append(score.iloc[i:i+1, 1:2])
+            self.__score[i] = self.__score[i].to_string(index=False, header=False)
+
+    def get_score(self):
+        return self.__score
