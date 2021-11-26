@@ -6,7 +6,7 @@ scoreboard_page = Blueprint('scoreboard_page', __name__)
 
 scoreboard = Scoreboard()
 
-scoreboard.set_data('data1.csv')
+scoreboard.set_data('./static/data1.csv')
 csv_data = scoreboard.get_data()
 
 
