@@ -31,9 +31,8 @@ connection_page = Blueprint('connection_page', __name__)
 def connectionPage():
     if request.method == 'POST':
         address = "http://" + request.form['ipInput'] + ":" + request.form['portInput'] + "/"
-        #address = "http://192.168.4.1/"
-        testDat = {'Speed': 10, 'Distance': 5}
-        #requests.post(address, testDat)
+        testDat = {'Speed': 10, 'Distance': 5, 'Tok': 'a1b2c3', end: '%'}
+        requests.post(address, testDat)
 
         return render_template('dashboard.html')
     else:
