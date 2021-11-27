@@ -1,4 +1,4 @@
-import sys, logging, gc, copy
+import sys, logging
 from flask import Flask, render_template
 from controllers import token_controller
 

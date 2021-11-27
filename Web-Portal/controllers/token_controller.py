@@ -1,14 +1,13 @@
+import secrets, logging
 from models.token import Token
 from flask import Blueprint, render_template
-import server
-import secrets
 
 auth_token = Token()
 
 def generate_token():
     auth_token.set_token(secrets.token_urlsafe(16))
     # debugging
-    server.logging.debug(auth_token.get_token())
+    #logging.debug(auth_token.get_token())
 
 def verify_token(token_from_car):
     # server.logging.debug(self.auth_token.get_code())
