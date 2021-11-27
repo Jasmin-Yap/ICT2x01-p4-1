@@ -8,7 +8,6 @@ conn = Connection()
 def connect_to_car(ip, port):
     conn.set_ip(ip)
     conn.set_port(port)
-    return verify_address()
 
 
 def verify_address():
@@ -21,7 +20,6 @@ def verify_address():
 def disconnect():
     conn.set_ip("0.0.0.0")
     conn.set_port("0")
-    return verify_address()
 
 
 connection_page = Blueprint('connection_page', __name__)
@@ -29,11 +27,28 @@ connection_page = Blueprint('connection_page', __name__)
 
 @connection_page.route('/connection', methods=['GET', 'POST'])
 def connectionPage():
+    i = 0
+    Token = 'a1b2c3'
     if request.method == 'POST':
         address = "http://" + request.form['ipInput'] + ":" + request.form['portInput'] + "/"
-        testDat = {'Speed': 10, 'Distance': 5, 'Tok': 'a1b2c3', end: '%'}
-        requests.post(address, testDat)
-
-        return render_template('dashboard.html')
+        #testDat = {'ISN': 0, 'TOK': 'a1b2c3', 'E': '#'}
+        testDat = {'ISN': 1, 'Speed': 10, 'Distance': 5, 'TOK': Token, 'E': '#'}
+        r = requests.post(address, testDat)
+        if r.status_code == 200:
+            r = requests.get(address, params={"type": "T"})
+            if r.text == Token:
+                connect_to_car(request.form['ipInput'], request.form['portInput'])
+                details = verify_address()
+                conn_details = {
+                    'ip': details[0],
+                    'port': details[1]
+                }
+        return render_template('connection.html', address=conn_details)
     else:
-        return render_template('dashboard.html')
+        disconnect()
+        details = verify_address()
+        conn_details = {
+            'ip': details[0],
+            'port': details[1]
+        }
+        return render_template('connection.html', address=conn_details)
