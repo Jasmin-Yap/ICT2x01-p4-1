@@ -21,7 +21,6 @@ class Scoreboard:
     def set_attempt(self, attempt):
         for i in range(len(attempt)):
             self.__attempt.append(attempt.iloc[i:i + 1, 0:1])
-            print(type(self.__attempt[i]))
             if type(self.__attempt[i]) is not str:
                 self.__attempt[i] = self.__attempt[i].to_string(index=False, header=False)
 
