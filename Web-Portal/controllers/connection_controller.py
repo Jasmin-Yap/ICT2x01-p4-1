@@ -1,5 +1,5 @@
 from models.connection import Connection
-import controllers.token_controller
+from controllers import token_controller
 from flask import Flask, render_template, request, redirect, url_for, Blueprint
 import requests
 
@@ -29,7 +29,7 @@ connection_page = Blueprint('connection_page', __name__)
 def connectionPage():
     #i = 0
     #Token = 'a1b2c3'
-    token_controller.generate_token()
+    #token_controller.generate_token()
     if request.method == 'POST':
         address = "http://" + request.form['ipInput'] + ":" + request.form['portInput'] + "/"
         testDat = {'ISN': 0, 'TOK': token_controller.auth_token.get_token(), 'E': '#'}
