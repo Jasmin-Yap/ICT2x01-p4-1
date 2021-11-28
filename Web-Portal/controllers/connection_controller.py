@@ -1,4 +1,5 @@
 from models.connection import Connection
+import controllers.token_controller
 from flask import Flask, render_template, request, redirect, url_for, Blueprint
 import requests
 
@@ -10,11 +11,10 @@ def connect_to_car(ip, port):
     conn.set_port(port)
 
 
-def verify_address():
+def get_address():
     # server.logging.debug(self.auth_token.get_code())
     # server.logging.debug(code)
-    details = [conn.get_ip(), conn.get_port()]
-    return details
+    return {'ip': conn.get_ip(), 'port': conn.get_port()}
 
 
 def disconnect():
@@ -27,28 +27,20 @@ connection_page = Blueprint('connection_page', __name__)
 
 @connection_page.route('/connection', methods=['GET', 'POST'])
 def connectionPage():
-    i = 0
-    Token = 'a1b2c3'
+    #i = 0
+    #Token = 'a1b2c3'
+    token_controller.generate_token()
     if request.method == 'POST':
         address = "http://" + request.form['ipInput'] + ":" + request.form['portInput'] + "/"
-        #testDat = {'ISN': 0, 'TOK': 'a1b2c3', 'E': '#'}
-        testDat = {'ISN': 1, 'Speed': 10, 'Distance': 5, 'TOK': Token, 'E': '#'}
+        testDat = {'ISN': 0, 'TOK': token_controller.auth_token.get_token(), 'E': '#'}
+        #testDat = {'ISN': 1, 'Speed': 10, 'Distance': 5, 'TOK': Token, 'E': '#'}
         r = requests.post(address, testDat)
         if r.status_code == 200:
             r = requests.get(address, params={"type": "T"})
-            if r.text == Token:
-                connect_to_car(request.form['ipInput'], request.form['portInput'])
-                details = verify_address()
-                conn_details = {
-                    'ip': details[0],
-                    'port': details[1]
-                }
-        return render_template('connection.html', address=conn_details)
+            if token_controller.verify_token(r.text):
+                print("Verified")
+        return render_template('dashboard.html')
     else:
         disconnect()
-        details = verify_address()
-        conn_details = {
-            'ip': details[0],
-            'port': details[1]
-        }
+        conn_details = get_address()
         return render_template('connection.html', address=conn_details)
