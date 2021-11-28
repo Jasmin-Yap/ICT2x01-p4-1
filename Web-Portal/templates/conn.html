@@ -16,76 +16,11 @@
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS Files -->
-
     <link href="./static/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
-    {% block css %}{% endblock %}
 </head>
 
 <body class="">
-    <div class="wrapper ">
-        <div class="sidebar" data-color="orange" data-background-color="black">
-            <div class="logo"><a class="simple-text logo-normal" href="./dashboard">
-                    2x01
-                </a></div>
-            <div class="sidebar-wrapper">
-                <ul class="nav">
-                    {% block nav_dash %}
-                    <li class="nav-item">
-                        {% endblock %}
-                        <a class="nav-link" href="./dashboard">
-                            <i class="material-icons">dashboard</i>
-                            <p>Dashboard</p>
-                        </a>
-                    </li>
-                    {% block nav_maze %}
-                    <li class="nav-item ">
-                        {% endblock %}
-                        <a class="nav-link" href="/maze">
-                            <i class="material-icons">settings</i>
-                            <p>Maze</p>
-                        </a>
-                    </li>
-                    {% block nav_scoreboard %}
-                    <li class="nav-item ">
-                        {% endblock %}
-                        <a class="nav-link" href="/scoreboard">
-                            <i class="material-icons">settings</i>
-                            <p>Scoreboard</p>
-                        </a>
-                    </li>
-                    {% block nav_ref %}
-                    <li class="nav-item ">
-                        {% endblock %}
-                        <a class="nav-link" href="/ref">
-                            <i class="material-icons">settings</i>
-                            <p>BS Ref</p>
-                        </a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="/connection">
-                            <i class="material-icons">cancel</i>
-                            <p>End Session</p>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="main-panel">
-            <!-- Navbar -->
-            <!-- <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
-                <div class="container-fluid">
-                    <div class="navbar-wrapper">
-                        <a class="navbar-brand" href="javascript:;">{{ self.title() }}
-                        </a>
-                    </div>
-            </nav> -->
-            <!-- End Navbar -->
-            <div class="container-fluid">
-                {% block content %}{% endblock %}
-
-            </div>
-        </div>
-    </div>
+    <a href="/dashboard">click</a>
 
     <!--   Core JS Files   -->
     <script src="./static/js/core/jquery.min.js"></script>

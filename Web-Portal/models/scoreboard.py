@@ -19,10 +19,11 @@ class Scoreboard:
         return self.__data
 
     def set_attempt(self, attempt):
-        self.__attempt.clear()
         for i in range(len(attempt)):
             self.__attempt.append(attempt.iloc[i:i + 1, 0:1])
-            self.__attempt[i] = self.__attempt[i].to_string(index=False, header=False)
+            print(type(self.__attempt[i]))
+            if type(self.__attempt[i]) is not str:
+                self.__attempt[i] = self.__attempt[i].to_string(index=False, header=False)
 
     def get_attempt(self):
         return self.__attempt
@@ -30,7 +31,8 @@ class Scoreboard:
     def set_score(self, score):
         for i in range(len(score)):
             self.__score.append(score.iloc[i:i+1, 1:2])
-            self.__score[i] = self.__score[i].to_string(index=False, header=False)
+            if type(self.__score[i]) is not str:
+                self.__score[i] = self.__score[i].to_string(index=False, header=False)
 
     def get_score(self):
         return self.__score
