@@ -3,14 +3,12 @@ from datetime import datetime
 
 
 class Scoreboard:
-    def __init__(self, data=None, score=[], attempt=[]):
-        self.__date = datetime.today().strftime('%d-%m-%Y')
+    def __init__(self, data=None, score=[], name=[], date=[]):
+        # self.__date = datetime.today().strftime('%d-%m-%Y')
+        self.__date = date
         self.__data = data
         self.__score = score
-        self.__attempt = attempt
-
-    def get_date(self):
-        return self.__date
+        self.__name = name
 
     def set_data(self, data):
         self.__data = pd.read_csv(data)
@@ -18,18 +16,27 @@ class Scoreboard:
     def get_data(self):
         return self.__data
 
-    def set_attempt(self, attempt):
-        for i in range(len(attempt)):
-            self.__attempt.append(attempt.iloc[i:i + 1, 0:1])
-            if type(self.__attempt[i]) is not str:
-                self.__attempt[i] = self.__attempt[i].to_string(index=False, header=False)
+    def set_date(self, date):
+        for i in range(len(date)):
+            self.__date.append(date.iloc[i:i+1, 1:2])
+            if type(self.__date[i]) is not str:
+                self.__date[i] = self.__date[i].to_string(index=False, header=False)
 
-    def get_attempt(self):
-        return self.__attempt
+    def get_date(self):
+        return self.__date
+
+    def set_name(self, name):
+        for i in range(len(name)):
+            self.__name.append(name.iloc[i:i + 1, 0:1])
+            if type(self.__name[i]) is not str:
+                self.__name[i] = self.__name[i].to_string(index=False, header=False)
+
+    def get_name(self):
+        return self.__name
 
     def set_score(self, score):
         for i in range(len(score)):
-            self.__score.append(score.iloc[i:i+1, 1:2])
+            self.__score.append(score.iloc[i:i+1, 2:3])
             if type(self.__score[i]) is not str:
                 self.__score[i] = self.__score[i].to_string(index=False, header=False)
 
