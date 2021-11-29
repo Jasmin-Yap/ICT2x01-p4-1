@@ -17,10 +17,27 @@ body{
 	height: 100%;
 }
 
+.scoreboard_title_wrap{
+	width: 500px;
+	height: 600px;
+	margin: 100px auto 0;
+	background: #000000;
+	padding: 25px 40px;
+	position: relative;
+	border-radius: 5px;
+}
+
+.scoreboard_title_wrap .scoreboard_title ul li{
+	margin-right: 50px;
+	font-size: 32px;
+	font-weight: 600;
+	color: #FFFFFF;
+}
+
 .scoreboard_section{
 	width: 500px;
 	height: 500px;
-	margin: 100px auto 0;
+	margin: 25px auto 0;
 	background: #f94f62;
 	padding: 25px 40px;
 	position: relative;
@@ -36,7 +53,7 @@ body{
 	font-size: 18px;
 	font-weight: 600;
 	color: #3a3d51;
-	cursor: not-allowed;
+	cursor: pointer;
 }
 
 .scoreboard_section .scoreboard_tabs ul li:hover,
