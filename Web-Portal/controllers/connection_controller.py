@@ -23,24 +23,48 @@ def disconnect():
 
 
 connection_page = Blueprint('connection_page', __name__)
+instruction_page = Blueprint('instruction_page', __name__)
 
 
 @connection_page.route('/connection', methods=['GET', 'POST'])
 def connectionPage():
-    #i = 0
-    #Token = 'a1b2c3'
-    #token_controller.generate_token()
+    token_controller.check_token()
     if request.method == 'POST':
-        address = "http://" + request.form['ipInput'] + ":" + request.form['portInput'] + "/"
-        testDat = {'ISN': 0, 'TOK': token_controller.auth_token.get_token(), 'E': '#'}
-        #testDat = {'ISN': 1, 'Speed': 10, 'Distance': 5, 'TOK': Token, 'E': '#'}
+        conn.set_ip(request.form['ipInput'])
+        conn.set_port(request.form['portInput'])
+
+        address = "http://" + conn.get_ip() + ":" + conn.get_port() + "/"
+        testDat = {'ISN': 0, 'TOK': token_controller.get_token(), 'E': '#'}
         r = requests.post(address, testDat)
+        print(token_controller.get_token())
+        print(r.status_code)
+
         if r.status_code == 200:
             r = requests.get(address, params={"type": "T"})
+            Token = token_controller.get_token()
+            print(r.text)
+            print(Token)
             if token_controller.verify_token(r.text):
                 print("Verified")
+
         return render_template('dashboard.html')
-    else:
-        disconnect()
-        conn_details = get_address()
-        return render_template('connection.html', address=conn_details)
+
+
+@instruction_page.route('/instruction', methods=['GET', 'POST'])
+def instructionPage():
+    if request.method == 'POST':
+        address = "http://" + conn.get_ip() + ":" + conn.get_port() + "/"
+        testDat = {'ISN': 1, 'Direction': 'l', 'TOK': token_controller.get_token(), 'E': '#'}
+        r = requests.post(address, testDat)
+        print(token_controller.get_token())
+        print(r.status_code)
+
+        if r.status_code == 200:
+            r = requests.get(address, params={"type": "T"})
+            Token = token_controller.get_token()
+            print(r.text)
+            print(Token)
+            if token_controller.verify_token(r.text):
+                print("Verified")
+
+        return render_template('dashboard.html')

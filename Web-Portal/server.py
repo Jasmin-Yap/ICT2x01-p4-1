@@ -7,8 +7,8 @@ logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
 app = Flask(__name__)
 
-app.register_blueprint(token_controller.simple_page)
 app.register_blueprint(connection_controller.connection_page)
+app.register_blueprint(connection_controller.instruction_page)
 
 #generate auth token variable
 token = token_controller
