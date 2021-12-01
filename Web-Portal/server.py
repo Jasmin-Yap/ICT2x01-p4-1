@@ -6,6 +6,7 @@ from controllers import connection_controller
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
 app = Flask(__name__)
+
 app.register_blueprint(token_controller.simple_page)
 app.register_blueprint(connection_controller.connection_page)
 
@@ -21,6 +22,7 @@ def connection():
 # route to be moved to connection controller
 @app.route('/dashboard')
 def dash():
+    # logging.debug(token.generate_token())
     token.generate_token()
     return render_template('dashboard.html')
 
