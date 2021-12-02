@@ -4,7 +4,6 @@ from datetime import datetime
 
 class Scoreboard:
     def __init__(self, data=None, score=[], name=[], date=[]):
-        self.__date = datetime.today().strftime('%d-%m-%Y')
         self.__date = date
         self.__data = data
         self.__score = score

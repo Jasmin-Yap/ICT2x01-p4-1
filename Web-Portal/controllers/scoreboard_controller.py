@@ -6,17 +6,16 @@ import logging
 
 
 scoreboard_page = Blueprint('scoreboard_page', __name__)
-scoreboard = Scoreboard()
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
 
-def get_csv(path):
+def get_csv(path, scoreboard_maze):
     while True:
         try:
-            scoreboard.set_data(path)
+            scoreboard_maze.set_data(path)
             logging.info('Found data file!')
-            return scoreboard.get_data()
+            return scoreboard_maze.get_data()
         except FileNotFoundError:
             logging.warning('Data file not found! Creating empty data file!')
             csv_data = pd.DataFrame({
@@ -26,9 +25,9 @@ def get_csv(path):
             })
             csv_data.to_csv(path, index=False)
             logging.warning('Created empty data file')
-            scoreboard.set_data(path)
+            scoreboard_maze.set_data(path)
             logging.warning('Reading newly created data file!')
-            return scoreboard.get_data()
+            return scoreboard_maze.get_data()
 
 
 def sort_top_5(csv_data):
@@ -39,7 +38,7 @@ def sort_top_5(csv_data):
     return top5
 
 
-def validate_data(data):
+def validate_data(data, scoreboard_maze):
     logging.info('Starting validation!')
     flag = 0
     if len(data) == 0:
@@ -94,9 +93,9 @@ def validate_data(data):
     if flag == 1:
         logging.info('Append success!')
         logging.info('Validation completed!')
-    scoreboard.set_name(data)
-    scoreboard.set_date(data)
-    scoreboard.set_score(data)
+    scoreboard_maze.set_name(data)
+    scoreboard_maze.set_date(data)
+    scoreboard_maze.set_score(data)
     return data
 
 
@@ -142,12 +141,11 @@ def scoreboard_test(path_no_file, path_no_data, path_1_data, path_2_data, path_m
     return None
 
 
-def scoreboard_data():
-    name = scoreboard.get_name()
-    date = scoreboard.get_date()
-    score = scoreboard.get_score()
+def scoreboard_data(scoreboard_maze):
+    name = scoreboard_maze.get_name()
+    date = scoreboard_maze.get_date()
+    score = scoreboard_maze.get_score()
     data = {
-        'date': scoreboard.get_date(),
         'rank1name': name[0],
         'rank2name': name[1],
         'rank3name': name[2],
@@ -169,17 +167,20 @@ def scoreboard_data():
 
 @scoreboard_page.route('/scoreboard')
 def display_scoreboard():
-    path_maze_1 = './static/data/maze_1.csv'
-    path_maze_2 = './static/data/maze_2.csv'
-    path_maze_3 = './static/data/maze_3.csv'
+    scoreboards = [Scoreboard(), Scoreboard(), Scoreboard()]
+    paths = ['./static/data/maze_1.csv', './static/data/maze_2.csv', './static/data/maze_3.csv']
+    scoreboards_data = []
     path_no_file = './static/data/dummy.csv'
     path_no_data = './static/data/data0.csv'
     path_1_data = './static/data/data1.csv'
     path_2_data = './static/data/data2.csv'
     path_multiple_data = './static/data/data999.csv'
 
-    scoreboard_test(path_no_file, path_no_data, path_1_data, path_2_data, path_multiple_data)
+    # scoreboard_test(path_no_file, path_no_data, path_1_data, path_2_data, path_multiple_data)
     logging.info('Running scoreboard!')
-    validate_data(sort_top_5(get_csv(path_maze_1)))
+    for maze, path_to_maze in zip(scoreboards, paths):
+        validate_data(sort_top_5(get_csv(path_to_maze, maze)), maze)
+        scoreboards_data.append(scoreboard_data(maze))
+    # print(scoreboards[0].get_name())
 
-    return render_template('scoreboard.html', scoreboard_py=scoreboard_data())
+    return render_template('scoreboard.html', scoreboard_py=scoreboards_data)
