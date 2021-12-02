@@ -9,122 +9,81 @@
 {% block content %}
 <!-- sensor Data Display -->
 <div class="row">
-    <div class="col-lg-3 col-md-6 col-sm-6">
-        <div class="card card-stats">
-            <div class="card-header card-header-warning card-header-icon">
-                <div class="card-icon">
-                    <i class="material-icons">speed</i>
+    <div class="col-lg-6">
+        <div class="row">
+            <div class="col">
+                <div class="card card-stats">
+                    <div class="card-header card-header-warning card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">speed</i>
+                        </div>
+                        <p class="card-category">Speed</p>
+                        <h3 class="card-title">25
+                            <small>cm/s</small>
+                        </h3>
+                    </div>
                 </div>
-                <p class="card-category">Speed</p>
-                <h3 class="card-title">25
-                    <small>cm/s</small>
-                </h3>
             </div>
-            <div class="card-footer">
+            <div class="col">
+                <div class="card card-stats">
+                    <div class="card-header card-header-danger card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">taxi_alert</i>
+                        </div>
+                        <p class="card-category">Closest Object</p>
+                        <h3 class="card-title">25
+                            <small>cm</small>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- stats Data Display -->
+        <div class="row">
+            <div class="col">
+                <div class="card card-stats">
+                    <div class="card-header card-header-success card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">sensors</i>
+                        </div>
+                        <p class="card-category">On The Line?</p>
+                        <h3 class="card-title">Yes
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card card-stats">
+                    <div class="card-header card-header-info card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">straighten</i>
+                        </div>
+                        <p class="card-category">Distance Travelled</p>
+                        <h3 class="card-title">300
+                            <small>cm</small>
+                        </h3>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-3 col-md-6 col-sm-6">
-        <div class="card card-stats">
-            <div class="card-header card-header-success card-header-icon">
-                <div class="card-icon">
-                    <i class="material-icons">taxi_alert</i>
+    <div class="col-lg-6">
+        <!-- MAZE DISPLAY HERE -->
+        <div class="card">
+            <div class="row">
+                <div class="card-header col-9">
+                    <h4 class="card-title card-header-warning">
+                        Maze</h4>
                 </div>
-                <p class="card-category">Closest Object</p>
-                <h3 class="card-title">25
-                    <small>cm</small>
-                </h3>
-            </div>
-            <div class="card-footer">
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-6 col-sm-6">
-        <div class="card card-stats">
-            <div class="card-header card-header-danger card-header-icon">
-                <div class="card-icon">
-                    <i class="material-icons">straighten</i>
+                <div class="dropdown col-3">
+                    <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Maze 1
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="mazeoptions">
+                      <a class="dropdown-item" href="#">Maze 2</a>
+                      <a class="dropdown-item" href="#">Maze 3</a>
+                    </div>
                 </div>
-                <p class="card-category">Distance Travelled</p>
-                <h3 class="card-title">300
-                    <small>cm</small>
-                </h3>
-            </div>
-            <div class="card-footer">
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-6 col-sm-6">
-        <div class="card card-stats">
-            <div class="card-header card-header-info card-header-icon">
-                <div class="card-icon">
-                    <i class="material-icons">sensors</i>
-                </div>
-                <p class="card-category">Light Level (Infrared)</p>
-                <h3 class="card-title">300</h3>
-            </div>
-            <div class="card-footer">
-            </div>
-        </div>
-    </div>
-</div>
-<!-- stats Data Display -->
-<div class="row">
-    <div class="col-lg-3 col-md-6 col-sm-6">
-        <div class="card card-stats">
-            <div class="card-header card-header-warning card-header-icon">
-                <div class="card-icon">
-                    <i class="material-icons">speed</i>
-                </div>
-                <p class="card-category">Speed</p>
-                <h3 class="card-title">25
-                    <small>cm/s</small>
-                </h3>
-            </div>
-            <div class="card-footer">
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-6 col-sm-6">
-        <div class="card card-stats">
-            <div class="card-header card-header-success card-header-icon">
-                <div class="card-icon">
-                    <i class="material-icons">taxi_alert</i>
-                </div>
-                <p class="card-category">Closest Object</p>
-                <h3 class="card-title">25
-                    <small>cm</small>
-                </h3>
-            </div>
-            <div class="card-footer">
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-6 col-sm-6">
-        <div class="card card-stats">
-            <div class="card-header card-header-danger card-header-icon">
-                <div class="card-icon">
-                    <i class="material-icons">straighten</i>
-                </div>
-                <p class="card-category">Distance Travelled</p>
-                <h3 class="card-title">300
-                    <small>cm</small>
-                </h3>
-            </div>
-            <div class="card-footer">
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-6 col-sm-6">
-        <div class="card card-stats">
-            <div class="card-header card-header-info card-header-icon">
-                <div class="card-icon">
-                    <i class="material-icons">sensors</i>
-                </div>
-                <p class="card-category">Light Level (Infrared)</p>
-                <h3 class="card-title">300</h3>
-            </div>
-            <div class="card-footer">
             </div>
         </div>
     </div>
