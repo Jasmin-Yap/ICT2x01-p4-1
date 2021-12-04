@@ -17,67 +17,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS Files -->
     <link href="./static/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
-    {% block css %}{% endblock %}
 </head>
 
 <body class="">
-    <div class="wrapper ">
-        <div class="sidebar" data-color="orange" data-background-color="black">
-            <div class="logo"><a class="simple-text logo-normal" href="./dashboard">
-                    2x01
-                </a></div>
-            <div class="sidebar-wrapper">
-                <ul class="nav">
-                    {% block nav_dash %}
-                    <li class="nav-item">
-                        {% endblock %}
-                        <a class="nav-link" href="./dashboard">
-                            <i class="material-icons">dashboard</i>
-                            <p>Dashboard</p>
-                        </a>
-                    </li>
-                    {% block nav_maze %}
-                    <li class="nav-item ">
-                        {% endblock %}
-                        <a class="nav-link" href="/MazeCreator">
-                            <i class="material-icons">drive_file_rename_outline</i>
-                            <p>Maze Creator</p>
-                        </a>
-                    </li>
-                    {% block nav_scoreboard %}
-                    <li class="nav-item ">
-                        {% endblock %}
-                        <a class="nav-link" href="/scoreboard">
-                            <i class="material-icons">leaderboard</i>
-                            <p>Scoreboard</p>
-                        </a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="/connection">
-                            <i class="material-icons">cancel</i>
-                            <p>End Session</p>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="main-panel">
-            <!-- Navbar -->
-            <!-- <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
-                <div class="container-fluid">
-                    <div class="navbar-wrapper">
-                        <a class="navbar-brand" href="javascript:;">{{ self.title() }}
-                        </a>
-                    </div>
-            </nav> -->
-            <!-- End Navbar -->
-            <div class="container-fluid">
-                {% block content %}{% endblock %}
-
-            </div>
-        </div>
-    </div>
-</body>
+    <a href="/dashboard">click</a>
 
     <!--   Core JS Files   -->
     <script src="./static/js/core/jquery.min.js"></script>
@@ -121,7 +64,6 @@
     <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="./static/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
 
-    {% block scripts %}
     <script>
         $(document).ready(function () {
             // Javascript method's body can be found in assets/js/demos.js
@@ -129,5 +71,6 @@
 
         });
     </script>
-    {% endblock %}
+</body>
+
 </html>
