@@ -16,7 +16,6 @@
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS Files -->
-
     <link href="./static/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
     {% block css %}{% endblock %}
 </head>
@@ -40,25 +39,17 @@
                     {% block nav_maze %}
                     <li class="nav-item ">
                         {% endblock %}
-                        <a class="nav-link" href="/maze">
-                            <i class="material-icons">settings</i>
-                            <p>Maze</p>
+                        <a class="nav-link" href="/MazeCreator">
+                            <i class="material-icons">drive_file_rename_outline</i>
+                            <p>Maze Creator</p>
                         </a>
                     </li>
                     {% block nav_scoreboard %}
                     <li class="nav-item ">
                         {% endblock %}
                         <a class="nav-link" href="/scoreboard">
-                            <i class="material-icons">settings</i>
+                            <i class="material-icons">leaderboard</i>
                             <p>Scoreboard</p>
-                        </a>
-                    </li>
-                    {% block nav_ref %}
-                    <li class="nav-item ">
-                        {% endblock %}
-                        <a class="nav-link" href="/ref">
-                            <i class="material-icons">settings</i>
-                            <p>BS Ref</p>
                         </a>
                     </li>
                     <li class="nav-item ">
@@ -86,6 +77,7 @@
             </div>
         </div>
     </div>
+</body>
 
     <!--   Core JS Files   -->
     <script src="./static/js/core/jquery.min.js"></script>
@@ -128,9 +120,8 @@
     <script src="./static/js/plugins/bootstrap-notify.js"></script>
     <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="./static/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
-    <!-- Scoreboard JS -->
-    <script src="./static/js/scoreboard.js"></script>
 
+    {% block scripts %}
     <script>
         $(document).ready(function () {
             // Javascript method's body can be found in assets/js/demos.js
@@ -138,6 +129,5 @@
 
         });
     </script>
-</body>
-
+    {% endblock %}
 </html>
