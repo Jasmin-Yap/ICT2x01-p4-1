@@ -2,6 +2,7 @@ import sys, logging
 from flask import Flask, render_template
 from controllers import connection_controller, scoreboard_controller, dashboard_controller, token_controller, maze_controller
 
+
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
 app = Flask(__name__)

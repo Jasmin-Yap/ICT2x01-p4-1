@@ -1,19 +1,16 @@
 from flask import Blueprint, render_template, Flask
 from controllers import token_controller
-from apscheduler.schedulers.background import BackgroundScheduler
-
 
 dashboard_page = Blueprint('dashboard_page', __name__)
 
 
-def receive_stats():
-    print('I am working...')
-
-
 @dashboard_page.route('/dashboard')
 def display_dashboard():
-    scheduler = BackgroundScheduler()
-    job = scheduler.add_job(receive_stats, 'interval', seconds=3)
-    scheduler.start()
+    stats_to_html = {
+        'Speed': 10,
+        'Closest': 5,
+        'Line': 'Yes',
+        'Distance': 100
+    }
     token_controller.generate_token()
-    return render_template('dashboard.html')
+    return render_template('dashboard.html', render_stats=stats_to_html)
