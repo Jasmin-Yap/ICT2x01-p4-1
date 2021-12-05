@@ -12,6 +12,7 @@ app.register_blueprint(connection_controller.instruction_page)
 app.register_blueprint(scoreboard_controller.scoreboard_page)
 app.register_blueprint(dashboard_controller.dashboard_page)
 app.register_blueprint(maze_controller.mazecreator_page)
+app.register_blueprint(dashboard_controller.stuff_page)
 
 # generate auth token variable
 token = token_controller

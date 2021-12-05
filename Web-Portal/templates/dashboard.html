@@ -18,9 +18,8 @@
                             <i class="material-icons">speed</i>
                         </div>
                         <p class="card-category">Speed</p>
-                        <h3 class="card-title">{{render_stats.Speed}}
+                        <h3 class="card-title" id="speed"></h3>
                             <small>cm/s</small>
-                        </h3>
                     </div>
                 </div>
             </div>
@@ -167,7 +166,26 @@
     </div>
 </div>
 {% endblock %}
-
 {% block scripts %}
 <!-- block for javascripts -->
+<script>
+var data = {"One": 1};
+var counter = 0;
+setInterval(function() {
+    $.ajax({
+        type: "POST",
+        url: "/dashboard",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        dataType: 'json',
+        success: function(result) {
+            document.getElementById("speed").innerHTML = result["Speed"];
+            console.log(result);
+        },
+        error: function(req, status, err) {
+        alert(status, err);
+        }
+    });
+}, 1000);
+</script>
 {% endblock %}
