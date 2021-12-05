@@ -146,21 +146,24 @@
                     Controls</h4>
             </div>
             <div class="card-body">
-                <form action="/instruction" method="post">
-                    <div class="row">
-                        <div class="col">
-                            <label for="speedInput">Set Speed (cm/s)</label>
-                            <input type="text" class="form-control" name="dirInput" value="l" disabled>
-                        </div>
-                        <div class="col">
-                            <label for="distanceInput">Minimum Distance to nearest obstacle (cm)</label>
-                            <input type="text" class="form-control" id="distanceInput"
-                                value="3" disabled>
-                        </div>
-                    </div>
-                    <br><br><br><br><br><br><br><br><br><br><br><br>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+            <p><b>You have <span id="capacity"></span> block(s) left.</b></p>
+            <p>
+            <button onclick="sendBlockValues()">Run Javascript</button>
+            <button onclick="showCode()">Show Javascript</button>
+            </p>
+
+            <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+                <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+                    <category name="Logic">
+                        <block type="forward"></block>
+                        <block type="Left"></block>
+                        <block type="Right"></block>
+                        <block type="controls_repeat_ext"></block>
+                        <block type="math_number">
+                            <field name="NUM">1</field>
+                        </block>
+                    </category>
+                </xml>
             </div>
         </div>
     </div>
