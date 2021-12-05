@@ -147,21 +147,25 @@
                     Controls</h4>
             </div>
             <div class="card-body">
-                <form action="/instruction" method="post">
-                    <div class="row">
-                        <div class="col">
-                            <label for="speedInput">Set Speed (cm/s)</label>
-                            <input type="text" class="form-control" name="dirInput" value="l" disabled>
-                        </div>
-                        <div class="col">
-                            <label for="distanceInput">Minimum Distance to nearest obstacle (cm)</label>
-                            <input type="text" class="form-control" id="distanceInput"
-                                value="3" disabled>
-                        </div>
-                    </div>
-                    <br><br><br><br><br><br><br><br><br><br><br><br>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+            <p><b>You have <span id="capacity"></span> block(s) left.</b></p>
+            <p>
+            <button onclick="sendBlockValues()">Run Javascript</button>
+            <button onclick="showCode()">Show Javascript</button>
+            </p>
+
+            <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+            <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+                <category name="Logic">
+                    <block type="forward"></block>
+                    <block type="Left"></block>
+                    <block type="Right"></block>
+                    <block type="controls_repeat_ext"></block>
+                    <block type="math_number">
+                        <field name="NUM">1</field>
+                    </block>
+
+                </category>
+            </xml>
             </div>
         </div>
     </div>
@@ -169,5 +173,70 @@
 {% endblock %}
 
 {% block scripts %}
-<!-- block for javascripts -->
+<!--Scripts for blockly-->
+<script src="./static/js/blockly_compressed.js"></script>
+<script src="./static/js/blocks_compressed.js"></script>
+<script src="./static/js/javascript_compressed.js"></script>
+<script src="./static/js/msg/js/en.js"></script>
+<script src="./static/js/blockly.js"></script>
+<script>
+    var demoWorkspace = Blockly.inject('blocklyDiv',
+    {media: '../../media/',
+    maxBlocks: 5,
+     toolbox: document.getElementById('toolbox')});
+
+    function showCode() {
+      // Generate JavaScript code and display it.
+      Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+      var code = Blockly.JavaScript.workspaceToCode(demoWorkspace);
+      alert(code);
+    }
+
+    function runCode() {
+    // Generate JavaScript code and run it.
+    window.LoopTrap = 1000;
+    Blockly.JavaScript.INFINITE_LOOP_TRAP =
+      'if (--window.LoopTrap == 0) throw "Infinite loop.";\n';
+    var code = Blockly.JavaScript.workspaceToCode(demoWorkspace);
+    Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+    try {
+        eval(code);
+    } catch (e) {
+        alert(e);
+    }
+    }
+    function onchange(event) {
+      document.getElementById('capacity').textContent =
+          demoWorkspace.remainingCapacity();
+    }
+
+    function sendBlockValues() {
+        var code = (Blockly.JavaScript.workspaceToCode(demoWorkspace)).split(";\n");
+        code.pop();
+        alert(code);
+        console.log(code);
+
+        var data = {'instructions':code};
+        // ajax the JSON to the server
+        $.ajax({
+            url: "/dashboard",
+            data: JSON.stringify(data),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function(result) {
+                console.log(result);
+                alert('result: ' + result['processed']);
+            },
+            error: function (req, status, err){
+                 console.log('Something went wrong', status, err);
+            }
+        });
+        // stop link reloading the page
+        event.preventDefault();
+    }
+
+    demoWorkspace.addChangeListener(onchange);
+    onchange();
+</script>
 {% endblock %}

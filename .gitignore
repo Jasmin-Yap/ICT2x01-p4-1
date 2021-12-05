@@ -131,4 +131,6 @@ dmypy.json
 
 # Personal documents
 .idea
+.vs
+/.vs/
 /.idea/
