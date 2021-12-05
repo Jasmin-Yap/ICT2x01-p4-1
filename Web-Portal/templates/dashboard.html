@@ -6,6 +6,12 @@
 <li class="nav-item active">
 {% endblock %}
 
+{% block css %}
+<link href="./static/css/mazecreator.css" rel="stylesheet" />
+<link href="./static/css/dashboard.css" rel="stylesheet" />
+{% endblock %}
+
+
 {% block content %}
 <!-- sensor Data Display -->
 <div class="row">
@@ -22,6 +28,7 @@
                             <small>cm/s</small>
                         </h3>
                     </div>
+                    <div class="card-footer"></div>
                 </div>
             </div>
             <div class="col">
@@ -35,6 +42,7 @@
                             <small>cm</small>
                         </h3>
                     </div>
+                    <div class="card-footer"></div>
                 </div>
             </div>
         </div>
@@ -50,6 +58,7 @@
                         <h3 class="card-title">Yes
                         </h3>
                     </div>
+                    <div class="card-footer"></div>
                 </div>
             </div>
             <div class="col">
@@ -63,44 +72,18 @@
                             <small>cm</small>
                         </h3>
                     </div>
+                    <div class="card-footer"></div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-lg-6">
         <div class="card">
-            <div class="row">
-                <div class="card-header col-9">
-                    <h4 class="card-title card-header-warning">
-                        Maze</h4>
-                </div>
-                <div class="dropdown col-3">
-                    <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Maze 1
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="mazeoptions">
-                      <a class="dropdown-item" href="#">Maze 2</a>
-                      <a class="dropdown-item" href="#">Maze 3</a>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <!-- MAZE DISPLAY HERE -->
-                <h2>HELP</h2>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Robotic Car Controls -->
-<div class="row">
-    <div class="col-md-4">
-        <div class="card">
             <div class="card-header card-header-info">
                 <h4 class="card-title">
                     Historical Instructions</h4>
             </div>
-            <div class="card-body table-responsive">
+            <div class="card-body table-responsive scroll">
                 <table class="table table-hover">
                     <thead class="text-warning">
                         <th>Time</th>
@@ -140,6 +123,27 @@
             </div>
         </div>
     </div>
+</div>
+
+<!-- Robotic Car Controls -->
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header card-header-warning">
+                <h4 id="mazeID" class="card-title">
+                    Maze</h4>
+            </div>
+            <div class="card-body">
+                <div class="dropdown">
+                    <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="dropdownMenuOptions">
+                    </div>
+                </div>
+                <div id="maze"></div>
+            </div>
+        </div>
+    </div>
     <div class="col-md-8">
         <div class="card">
             <div class="card-header card-header-primary">
@@ -173,6 +177,62 @@
 {% endblock %}
 
 {% block scripts %}
+<!--scripts for maze display-->
+<script>
+    var maze_list;
+    $(document).ready(function () {
+        $.ajax({
+            url: "/MazeData",
+            type: "GET",
+            contentType: "application/json",
+            dataType: "json",
+            //on success
+            success: function(result){
+                maze_list = result;
+                for(var i=0; i<result.length; i++){
+                    if(i==0){
+                        changeMaze(i)
+                    }
+                    var option = document.createElement("a");
+                    option.classList.add("dropdown-item");
+                    option.innerHTML = result[i]['maze_ID'];
+                    option.id = i;
+                    option.addEventListener('click', function(){changeMaze(this.id);});
+                    document.getElementById("dropdownMenuOptions").append(option);
+                }
+            },
+            //on error
+            error: function(rep, status, err){
+                alert(status, err);
+            }
+        });
+    });
+
+    function changeMaze(maze_ID){
+        console.log(maze_ID);
+        document.getElementById("mazeID").innerHTML = maze_list[maze_ID]['maze_ID'];
+        var map = maze_list[maze_ID]['map']
+        var grid = document.createElement('table');
+        grid.className = 'dashboardgrid';
+        for (var r=0;r<8;++r){
+            var tr = grid.appendChild(document.createElement('tr'));
+            for (var c=0;c<8;++c){
+                var cell = tr.appendChild(document.createElement('td'));
+                cell.id = r + "-" + c;
+                if(map[r][c]==1){
+                    cell.classList.add("path");
+                }else if(map[r][c]==2){
+                    cell.classList.add("start");
+                }else if(map[r][c]==3){
+                    cell.classList.add("end");
+                }
+            }
+        }
+        document.getElementById("maze").innerHTML = "";
+        document.getElementById("maze").append(grid);
+    }
+</script>
+
 <!--Scripts for blockly-->
 <script src="./static/js/blockly_compressed.js"></script>
 <script src="./static/js/blocks_compressed.js"></script>
@@ -181,7 +241,7 @@
 <script src="./static/js/blockly.js"></script>
 <script>
     var demoWorkspace = Blockly.inject('blocklyDiv',
-    {media: '../../media/',
+    {media: './static/media/',
     maxBlocks: 5,
      toolbox: document.getElementById('toolbox')});
 

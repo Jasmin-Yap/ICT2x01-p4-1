@@ -156,7 +156,7 @@ function getArray(){
     }
 
     if (errmsg === ''){
-        var data = [{name: mazename}, {map: array}]
+        var data = {name: mazename, map: array};
         // POST to controller
         $.ajax({
             url: "/MazeCreator",
