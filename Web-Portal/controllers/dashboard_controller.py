@@ -7,7 +7,7 @@ stuff_page = Blueprint('stuff_page', __name__)
 
 
 def get_stats(i):
-    i += 1
+    i += 2
     stats_to_html = {
         'Speed': i,
         'Closest': '-',
