@@ -156,5 +156,79 @@
 {% endblock %}
 
 {% block scripts %}
-<!-- block for javascripts -->
+<!--Scripts for blockly-->
+<script src="./static/js/blockly_compressed.js"></script>
+<script src="./static/js/blocks_compressed.js"></script>
+<script src="./static/js/javascript_compressed.js"></script>
+<script src="./static/js/msg/js/en.js"></script>
+<script src="./static/js/blockly.js"></script>
+<script>
+    var demoWorkspace = Blockly.inject('blocklyDiv',
+    {media: '../../media/',
+    maxBlocks: 5,
+     toolbox: document.getElementById('toolbox')});
+
+
+    function showCode() {
+      // Generate JavaScript code and display it.
+      Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+      var code = Blockly.JavaScript.workspaceToCode(demoWorkspace);
+      var val = document.getElementById("value");
+      var textoutput = document.getElementById("code_output");
+      textoutput.value = code;
+      val.value = code;
+      alert(code);
+    }
+
+
+
+    function runCode() {
+    // Generate JavaScript code and run it.
+    window.LoopTrap = 1000;
+    Blockly.JavaScript.INFINITE_LOOP_TRAP =
+      'if (--window.LoopTrap == 0) throw "Infinite loop.";\n';
+    var code = Blockly.JavaScript.workspaceToCode(demoWorkspace);
+    Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+    try {
+        eval(code);
+    } catch (e) {
+        alert(e);
+    }
+    }
+    function onchange(event) {
+      document.getElementById('capacity').textContent =
+          demoWorkspace.remainingCapacity();
+    }
+
+
+
+    function sendBlockValues() {
+        var code = (Blockly.JavaScript.workspaceToCode(demoWorkspace)).split(";\n");
+        code.pop();
+        alert(code);
+        console.log(code);
+
+        var data = {'instructions':code};
+        // ajax the JSON to the server
+        $.ajax({
+            url: "/blockly",
+            data: JSON.stringify(data),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function(result) {
+                console.log(result);
+                alert('result: ' + result['processed']);
+            },
+            error: function(result){
+                alert("No result found")
+            }
+        });
+        // stop link reloading the page
+        event.preventDefault();
+    }
+
+    demoWorkspace.addChangeListener(onchange);
+    onchange();
+</script>
 {% endblock %}

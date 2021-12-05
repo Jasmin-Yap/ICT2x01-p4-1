@@ -14,9 +14,9 @@ def get_instructions():
 def blocklyPage():
     if request.method == 'POST':
         data = request.get_json()
-        get_instructions(data)
+        get_instructions(data['instructions'])
         result = {'processed': 'true'}
         return jsonify(result)
 
-    return render_template('blockly.html', data=get_instructions)
+    return render_template('blockly.html', data=get_instructions())
 
