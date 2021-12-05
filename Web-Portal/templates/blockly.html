@@ -4,90 +4,38 @@
 
 {% block nav_blockly %}
 <li class="nav-item active">
+
 {% endblock %}
 
 {% block blockly %}
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>Blockly Demo: Fixed Blockly</title>
-  <script src="./static/js/blockly_compressed.js"></script>
-  <script src="./static/js/blocks_compressed.js"></script>
-  <script src="./static/js/javascript_compressed.js"></script>
-  <script src="./static/js/msg/js/en.js"></script>
 
-  <script src="./static/js/custom.js"></script>
-  <style>
-    body {
-      background-color: #fff;
-      font-family: sans-serif;
-    }
-    h1 {
-      font-weight: normal;
-      font-size: 140%;
-    }
-    textarea {
-      width: 100%;
-      height: 20em;
-    }
-
-  </style>
-</head>
 <body>
-
+<p><b>You have <span id="capacity"></span> block(s) left.</b></p>
   <p>
-    <button onclick="runCode()">Run Javascript</button>
+    <button onclick="sendBlockValues()">Run Javascript</button>
     <button onclick="showCode()">Show Javascript</button>
   </p>
 
   <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
-
   <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
     <category name="Logic">
     <block type="forward"></block>
     <block type="Left"></block>
     <block type="Right"></block>
+    <block type="controls_repeat_ext"></block>
+    <block type="math_number">
+      <field name="NUM">1</field>
+    </block>
 
     </category>
   </xml>
 
-  <input type="hidden" id="value" value="">
+  <input class="form-control" type="hidden" id="value" value="">
 <td style="width:50%">
         <textarea id="code_output" readonly></textarea>
-      </td>
-
-  <script>
-    var demoWorkspace = Blockly.inject('blocklyDiv',
-        {media: '../../media/',
-         toolbox: document.getElementById('toolbox')});
-
-function showCode() {
-      // Generate JavaScript code and display it.
-      Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
-      var code = Blockly.JavaScript.workspaceToCode(demoWorkspace);
-      var val = document.getElementById("value");
-      var textoutput = document.getElementById("code_output");
-      textoutput.value = code;
-      val.value = code;
-      alert(code);
-    }
-
-         function runCode() {
-      // Generate JavaScript code and run it.
-      window.LoopTrap = 1000;
-      Blockly.JavaScript.INFINITE_LOOP_TRAP =
-          'if (--window.LoopTrap == 0) throw "Infinite loop.";\n';
-      var code = Blockly.JavaScript.workspaceToCode(demoWorkspace);
-      Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
-      try {
-        eval(code);
-      } catch (e) {
-        alert(e);
-      }
-    }
-
-  </script>
+</td>
 
 </body>
 </html>

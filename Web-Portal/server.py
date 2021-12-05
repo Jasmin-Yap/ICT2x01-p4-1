@@ -1,11 +1,12 @@
 from flask import Flask, render_template
-from controllers import *
+from controllers import blockly_controller
 
 app = Flask(__name__)
 
 @app.route('/')
 def connection():
     return render_template('dashboard.html')
+
 @app.route('/blockly')
 def blockly():
     return render_template('blockly.html')

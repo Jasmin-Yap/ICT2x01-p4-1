@@ -43,7 +43,7 @@ Blockly.JavaScript['forward'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
   //var code = "document.getElementById('circle').value = "Forward";"
   //return code;
-  return 'forward;\n';
+  return 'Forward;\n';
 };
 
 Blockly.JavaScript['Right'] = function(block) {
