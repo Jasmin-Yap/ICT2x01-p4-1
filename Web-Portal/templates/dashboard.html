@@ -147,11 +147,10 @@
                     Controls</h4>
             </div>
             <div class="card-body">
-                 {% block blockly %}
             <p><b>You have <span id="capacity"></span> block(s) left.</b></p>
             <p>
-                <button onclick="sendBlockValues()">Run Javascript</button>
-                <button onclick="showCode()">Show Javascript</button>
+            <button onclick="sendBlockValues()">Run Javascript</button>
+            <button onclick="showCode()">Show Javascript</button>
             </p>
 
             <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
@@ -162,12 +161,11 @@
                     <block type="Right"></block>
                     <block type="controls_repeat_ext"></block>
                     <block type="math_number">
-                    <field name="NUM">1</field>
-                </block>
+                        <field name="NUM">1</field>
+                    </block>
 
                 </category>
             </xml>
-                {% endblock %}
             </div>
         </div>
     </div>
@@ -187,19 +185,12 @@
     maxBlocks: 5,
      toolbox: document.getElementById('toolbox')});
 
-
     function showCode() {
       // Generate JavaScript code and display it.
       Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
       var code = Blockly.JavaScript.workspaceToCode(demoWorkspace);
-      var val = document.getElementById("value");
-      var textoutput = document.getElementById("code_output");
-      textoutput.value = code;
-      val.value = code;
       alert(code);
     }
-
-
 
     function runCode() {
     // Generate JavaScript code and run it.
@@ -219,8 +210,6 @@
           demoWorkspace.remainingCapacity();
     }
 
-
-
     function sendBlockValues() {
         var code = (Blockly.JavaScript.workspaceToCode(demoWorkspace)).split(";\n");
         code.pop();
@@ -230,7 +219,7 @@
         var data = {'instructions':code};
         // ajax the JSON to the server
         $.ajax({
-            url: "/blockly",
+            url: "/dashboard",
             data: JSON.stringify(data),
             type: "POST",
             contentType: "application/json",
@@ -239,8 +228,8 @@
                 console.log(result);
                 alert('result: ' + result['processed']);
             },
-            error: function(result){
-                alert("No result found")
+            error: function (req, status, err){
+                 console.log('Something went wrong', status, err);
             }
         });
         // stop link reloading the page

@@ -1,6 +1,6 @@
 import sys, logging
 from flask import Flask, render_template
-from controllers import connection_controller, scoreboard_controller, dashboard_controller, token_controller, maze_controller, blockly_controller
+from controllers import connection_controller, scoreboard_controller, dashboard_controller, token_controller, maze_controller
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
@@ -11,23 +11,11 @@ app.register_blueprint(connection_controller.instruction_page)
 app.register_blueprint(scoreboard_controller.scoreboard_page)
 app.register_blueprint(dashboard_controller.dashboard_page)
 app.register_blueprint(maze_controller.mazecreator_page)
-app.register_blueprint(blockly_controller.blockly_page)
-
-#generate auth token variable
-token = token_controller
-
 
 @app.route('/')
 def connection():
     conn_details = connection_controller.get_address()
     return render_template('connection.html', address=conn_details)
-
-# route to be moved to connection controller
-@app.route('/dashboard')
-def dash():
-    # logging.debug(token.generate_token())
-    token.generate_token()
-    return render_template('dashboard.html')
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8000, debug=True)
