@@ -1,18 +1,20 @@
 from flask import Blueprint, render_template, Flask, request, jsonify
 from controllers import token_controller, connection_controller
 from models import blockly
+import random
 
 dashboard_page = Blueprint('dashboard_page', __name__)
 block_arr = []
 
 
-def get_stats(i):
-    i += 2
+def get_stats(data):
+    speed = random.randrange(3)
+    distance = data + speed
     stats_to_html = {
-        'Speed': i,
-        'Closest': '-',
+        'Speed': speed,
+        'Closest': 0,
         'Line': 'Yes',
-        'Distance': i
+        'Distance': distance
     }
     return stats_to_html
 
@@ -32,11 +34,12 @@ def blocklyPage():
         result = {'processed': 'true'}
         return jsonify(result)
     token_controller.generate_token()
-    return render_template('dashboard.html', data=get_instructions())
+    return render_template('dashboard.html', data=get_instructions(), render_stats=get_stats(0))
+
 
 @dashboard_page.route('/stats', methods=['POST'])
 def display_dashboard():
     if request.method == "POST":
         data = request.get_json()
-        results = get_stats()
+        results = get_stats(data["Distance"])
         return jsonify(results)
