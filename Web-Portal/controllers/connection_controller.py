@@ -1,5 +1,5 @@
 from models.connection import Connection
-from controllers import token_controller
+from controllers import connection_controller, token_controller, maze_controller
 from flask import Flask, render_template, request, redirect, url_for, Blueprint
 import requests
 
@@ -36,18 +36,31 @@ def connectionPage():
         address = "http://" + conn.get_ip() + ":" + conn.get_port() + "/"
         testDat = {'ISN': 0, 'TOK': token_controller.get_token(), 'E': '#'}
         r = requests.post(address, testDat)
-        print(token_controller.get_token())
-        print(r.status_code)
+        #print(token_controller.get_token())
+        #print(r.status_code)
 
         if r.status_code == 200:
             r = requests.get(address, params={"type": "T"})
-            Token = token_controller.get_token()
-            print(r.text)
-            print(Token)
+            #Token = token_controller.get_token()
+            #print(r.text)
+            #print(Token)
             if token_controller.verify_token(r.text):
-                print("Verified")
+                #print("Verified")
+                return render_template('dashboard.html')
 
-        return render_template('dashboard.html')
+    conn_details = connection_controller.get_address()
+    disconnect()
+    token_controller.clear_token()
+    maze_controller.clear_custom_mazes()
+    return render_template('connection.html', address=conn_details)
+
+
+'''
+def end_session():
+    token_controller.clear_token()
+    maze_controller.clear_custom_mazes()
+    return render_template('connection.html')
+'''
 
 
 @instruction_page.route('/instruction', methods=['GET', 'POST'])

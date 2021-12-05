@@ -32,16 +32,20 @@ app.register_blueprint(dashboard_controller.dashboard_page)
 app.register_blueprint(maze_controller.mazecreator_page)
 
 
+'''
 @app.route('/')
 def connection():
-    return render_template('connection.html')
+    return render_template('connection.html', methods=['GET', 'POST'])
+'''
 
 
+'''
 @app.route('/connection')
 def end_session():
     token_controller.clear_token()
     maze_controller.clear_custom_mazes()
     return render_template('connection.html')
+'''
 
 
 if __name__ == '__main__':
