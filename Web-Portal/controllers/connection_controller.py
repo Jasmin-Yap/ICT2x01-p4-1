@@ -43,23 +43,16 @@ def connectionPage():
 
         address = "http://" + conn.get_ip() + ":" + conn.get_port() + "/"
         testDat = {'ISN': 0, 'TOK': token_controller.get_token(), 'E': '#'}
-        #r = requests.post(address, testDat)
         r = "200"
-        print(token_controller.get_token())
-        print(r)
 
         if r == "200":
-            #r = requests.get(address, params={"type": "T"})
             r = token_controller.get_token()
-            Token = token_controller.get_token()
-            print(r)
-            print(Token)
             if token_controller.verify_token(r):
                 print("Verified")
                 return render_template('dashboard.html')
 
-    conn_details = connection_controller.get_address()
     disconnect()
+    conn_details = connection_controller.get_address()
     token_controller.clear_token()
     maze_controller.clear_custom_mazes()
     return render_template('connection.html', address=conn_details)
@@ -70,21 +63,15 @@ def instructionPage():
     if request.method == 'POST':
         address = "http://" + conn.get_ip() + ":" + conn.get_port() + "/"
         testDat = {'ISN': 1, 'Direction': 'l', 'TOK': token_controller.get_token(), 'E': '#'}
-        r = requests.post(address, testDat)
-        print(token_controller.get_token())
-        print(r.status_code)
-
-        if r.status_code == 200:
-            r = requests.get(address, params={"type": "T"})
-            Token = token_controller.get_token()
-            print(r.text)
-            print(Token)
-            if token_controller.verify_token(r.text):
+        r = "200"
+        if r == "200":
+            r = token_controller.get_token()
+            if token_controller.verify_token(r):
                 print("Verified")
                 return render_template('dashboard.html')
 
-    conn_details = connection_controller.get_address()
     disconnect()
+    conn_details = connection_controller.get_address()
     token_controller.clear_token()
     maze_controller.clear_custom_mazes()
     return render_template('connection.html', address=conn_details)
