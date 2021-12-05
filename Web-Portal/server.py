@@ -22,5 +22,12 @@ def connection():
     conn_details = connection_controller.get_address()
     return render_template('connection.html', address=conn_details)
 
+# route to be moved to connection controller
+@app.route('/dashboard')
+def dash():
+    # logging.debug(token.generate_token())
+    token.generate_token()
+    return render_template('dashboard.html')
+
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8000, debug=True)

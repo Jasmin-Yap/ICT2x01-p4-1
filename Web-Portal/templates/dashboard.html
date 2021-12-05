@@ -148,6 +148,25 @@
             </div>
             <div class="card-body">
                  {% block blockly %}
+            <p><b>You have <span id="capacity"></span> block(s) left.</b></p>
+            <p>
+                <button onclick="sendBlockValues()">Run Javascript</button>
+                <button onclick="showCode()">Show Javascript</button>
+            </p>
+
+            <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+            <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+                <category name="Logic">
+                    <block type="forward"></block>
+                    <block type="Left"></block>
+                    <block type="Right"></block>
+                    <block type="controls_repeat_ext"></block>
+                    <block type="math_number">
+                    <field name="NUM">1</field>
+                </block>
+
+                </category>
+            </xml>
                 {% endblock %}
             </div>
         </div>
