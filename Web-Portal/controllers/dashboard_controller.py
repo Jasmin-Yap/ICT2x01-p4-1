@@ -42,6 +42,8 @@ def dashboard():
 
 @dashboard_page.route('/MazeData')
 def getMazeDate():
+    if not token_controller.check_token():
+        return redirect('/')
     return jsonify(maze_controller.get_mazes())
 
 

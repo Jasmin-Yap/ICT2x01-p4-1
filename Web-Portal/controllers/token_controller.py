@@ -1,7 +1,5 @@
-import secrets, logging
+import secrets
 from models.token import Token
-from flask import Blueprint, render_template
-
 auth_token = Token()
 
 """

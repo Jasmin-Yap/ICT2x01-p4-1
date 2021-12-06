@@ -3,3 +3,4 @@ Flask~=2.0.2
 openpyxl~=3.0.9
 requests~=2.26.0
 APScheduler~=3.8.1
+coverage~=6.2
