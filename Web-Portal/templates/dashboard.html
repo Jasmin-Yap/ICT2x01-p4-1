@@ -240,31 +240,6 @@
         delay();
     }
     set_zero();
-
-<!--    interval = setInterval(function() {-->
-<!--        var data = {"Distance": distance};-->
-<!--        $.ajax({-->
-<!--            type: "POST",-->
-<!--            url: "/stats",-->
-<!--            data: JSON.stringify(data),-->
-<!--            contentType: "application/json",-->
-<!--            dataType: 'json',-->
-<!--            success: function(result) {-->
-<!--                document.getElementById("speed").innerHTML = result["Speed"] + " tile/s";-->
-<!--                document.getElementById("closest").innerHTML = result["Closest"] + " tile";-->
-<!--                document.getElementById("line").innerHTML = "Yes";-->
-<!--                distance = distance + result["Speed"];-->
-<!--                document.getElementById("distance").innerHTML = result["Distance"] + " tile";-->
-<!--                console.log(blockly_code);-->
-<!--            },-->
-<!--            error: function(req, status, err) {-->
-<!--            document.getElementById("line").innerHTML = "No";-->
-<!--            document.getElementById("refresh").innerHTML = '<meta http-equiv="refresh" content="10">';-->
-<!--            clearInterval(interval)-->
-<!--            alert(status, err);-->
-<!--            }-->
-<!--        });-->
-<!--    }, 1000);-->
 </script>
     <!--Scripts for blockly-->
 <!--scripts for maze display-->
