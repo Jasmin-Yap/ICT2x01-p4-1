@@ -1,6 +1,7 @@
-import logging
-from flask import Blueprint, render_template, jsonify, request, redirect
 from models import maze
+from controllers import token_controller
+from flask import Blueprint, render_template, jsonify, request, redirect
+import logging
 
 """
 Creation of pregenerated mazes
