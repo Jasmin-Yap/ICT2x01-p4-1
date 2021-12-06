@@ -7,7 +7,6 @@ logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 app = Flask(__name__)
 
 app.register_blueprint(connection_controller.connection_page)
-app.register_blueprint(connection_controller.instruction_page)
 app.register_blueprint(scoreboard_controller.scoreboard_page)
 app.register_blueprint(dashboard_controller.dashboard_page)
 app.register_blueprint(maze_controller.mazecreator_page)

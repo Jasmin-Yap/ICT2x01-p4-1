@@ -20,9 +20,7 @@ def dashboard():
         return redirect('/')
     if request.method == 'POST':
         data = request.get_json()
-        instructions = blockly.Blockly(data['instructions'])
-        #obj.set_instructions(get_instructions(data['instructions']))
-        #connection_controller.send_instruction(obj)
+        connection_controller.send_instruction(data['instructions'])
         result = {'processed': 'true'}
         return jsonify(result)
     
