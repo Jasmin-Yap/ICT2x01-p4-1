@@ -56,7 +56,8 @@ flask run
 - feature and integration brnaches cannot merge with main
 
 ## "User Acceptance Testing"
-***To be completed by Arief***
+### Blackbox Testing Video
+Please find the video of blackbox test execution here &#8594; https://youtu.be/wo8pbCe2cAM
 
 ## Whitebox Testing: Token Controller
 ### Why Token Controller?
