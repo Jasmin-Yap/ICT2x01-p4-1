@@ -151,13 +151,16 @@
                     Controls</h4>
             </div>
             <div class="card-body">
-            <p><b>You have <span id="capacity"></span> block(s) left.</b></p>
-            <p>
-            <button onclick="sendBlockValues()">Run Javascript</button>
-            <button onclick="showCode()">Show Javascript</button>
-            </p>
-
-            <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+                <div class="row">
+                    <div class="col">
+                        <h4 class="text-danger">You have <span id="capacity"></span> block(s) left.</h4>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary" onclick="sendBlockValues()">Send Commands!</button>
+                        <button class="btn" onclick="showCode()">Show Commands</button>
+                    </div>
+                </div>
+            <div id="blocklyDiv" style="height: 25rem;"></div>
             <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
                 <category name="Logic">
                     <block type="forward"></block>
