@@ -1,18 +1,19 @@
-import logging
-from flask import Blueprint, render_template, jsonify, request
 from models import maze
+from controllers import token_controller
+from flask import Blueprint, render_template, jsonify, request, redirect
+import logging
 
 """
 Creation of pregenerated mazes
 """
-map1 = [[0,0,0,0,0,0,0,0],
+map1 = [[2,1,1,1,1,1,1,3],
         [0,0,0,0,0,0,0,0],
-        [0,0,0,1,0,0,0,0],
-        [0,0,0,1,0,0,0,0],
-        [0,0,1,1,1,0,0,0],
-        [0,1,1,0,1,0,0,0],
-        [1,1,0,0,1,1,1,3],
-        [2,0,0,0,0,0,0,0]]
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0]]
 
 map2 = [[0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
@@ -73,6 +74,8 @@ mazecreator_page = Blueprint("mazecreator_page", __name__)
 
 @mazecreator_page.route('/MazeCreator', methods=['POST', 'GET'])
 def maze_creator():
+	if not token_controller.check_token():
+		return redirect('/')
 	if request.method == 'POST':
 		data = request.get_json()
 		create_custom_maze(data['name'], data['map'])

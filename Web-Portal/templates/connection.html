@@ -17,13 +17,13 @@
 </head>
 
 <body class="">
-    <!-- Robotic Car Controls -->
-    <div class="row">
-        <div class="col-md-8">
-            <div class="card">
+    <div class="wrapper ">
+        <div class="main-panel">
+            <!-- Robotic Car Controls -->
+            <div class="card" style="width: 60rem;">
                 <div class="card-header card-header-primary">
-                    <h4 class="card-title">
-                        Controls</h4>
+                    <h4 class="card-title text-center">
+                        Connect to the Robotic Car!</h4>
                 </div>
                 <div class="card-body">
                     <form action="/connection" method="post">
@@ -37,7 +37,13 @@
                                 <input type="number" class="form-control" required name="portInput" placeholder={{address.port}}>
                             </div>
                         </div>
-                        <br><br><br><br><br><br><br><br><br><br><br><br>
+                        <div class="row">
+                            <div class="col">
+                                <label for="studentName">Name</label>
+                                <input type="text" class="form-control" required name="studentName" placeholder=John>
+                            </div>
+                        </div>
+                        <br><br>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
