@@ -23,9 +23,8 @@
                             <i class="material-icons">speed</i>
                         </div>
                         <p class="card-category">Speed</p>
-                        <h3 class="card-title">25
-                            <small>cm/s</small>
-                        </h3>
+                        <h3 class="card-title" id="speed"></h3>
+                        <p id="refresh"></p>
                     </div>
                     <div class="card-footer"></div>
                 </div>
@@ -37,8 +36,7 @@
                             <i class="material-icons">taxi_alert</i>
                         </div>
                         <p class="card-category">Closest Object</p>
-                        <h3 class="card-title">25
-                            <small>cm</small>
+                        <h3 class="card-title" id="closest">
                         </h3>
                     </div>
                     <div class="card-footer"></div>
@@ -54,8 +52,7 @@
                             <i class="material-icons">sensors</i>
                         </div>
                         <p class="card-category">On The Line?</p>
-                        <h3 class="card-title">Yes
-                        </h3>
+                        <h3 class="card-title" id="line"></h3>
                     </div>
                     <div class="card-footer"></div>
                 </div>
@@ -67,8 +64,7 @@
                             <i class="material-icons">straighten</i>
                         </div>
                         <p class="card-category">Distance Travelled</p>
-                        <h3 class="card-title">300
-                            <small>cm</small>
+                        <h3 class="card-title" id="distance">
                         </h3>
                     </div>
                     <div class="card-footer"></div>
@@ -153,6 +149,71 @@
 {% endblock %}
 
 {% block scripts %}
+<!-- block for javascripts -->
+<script>
+    var distance = 0;
+
+    function set_zero() {
+        document.getElementById("speed").innerHTML = "0 tile/s";
+        document.getElementById("closest").innerHTML = "0 tile";
+        document.getElementById("line").innerHTML = "Yes";
+        document.getElementById("distance").innerHTML = distance + " tiles";
+        if (distance == 0 || distance == 1) {
+            document.getElementById("distance").innerHTML = distance + " tile";
+        }
+    }
+
+    function check_flag() {
+        var code = (Blockly.JavaScript.workspaceToCode(demoWorkspace)).split(";\n");
+        var counter = 0;
+        for (let i = 0; i < code.length; i++) {
+            if (code[i] == "Forward") {
+                counter++;
+            }
+        }
+        var data = {"Distance": counter};
+        var i = 0;
+        function stats_display() {
+            setTimeout(function() {
+                $.ajax({
+                    type: "POST",
+                    url: "/stats",
+                    data: JSON.stringify(data),
+                    contentType: "application/json",
+                    dataType: 'json',
+                    success: function(result) {
+                        document.getElementById("speed").innerHTML = result["Speed"] + " tile/s";
+                        document.getElementById("closest").innerHTML = result["Closest"] + " tile";
+                        document.getElementById("line").innerHTML = result["Line"];
+                        distance = distance + result["Speed"];
+                        document.getElementById("distance").innerHTML = distance + " tiles";
+                        if (distance == 0 || distance == 1) {
+                            document.getElementById("distance").innerHTML = distance + " tile";
+                        }
+                    },
+                    error: function(req, status, err) {
+                    document.getElementById("line").innerHTML = "No";
+                    document.getElementById("refresh").innerHTML = '<meta http-equiv="refresh" content="10">';
+                    alert(status, err);
+                    }
+                });
+                i++;
+                if (i < counter) {
+                    stats_display();
+                }
+            }, 1000)
+        }
+        function delay() {
+            setTimeout(function() {
+                set_zero();
+            }, (counter * 1000) + 1000)
+        }
+        stats_display();
+        delay();
+    }
+    set_zero();
+</script>
+    <!--Scripts for blockly-->
 <!--scripts for maze display-->
 <script>
     var maze_list;
@@ -277,9 +338,9 @@
             }
         }
         if(sendInstruction){
+            check_flag();
             sendBlockValues(code);
             noOfInstructionsSent += code.length;
-            console.log(noOfInstructionsSent);
         }
         if(atEndPoint){
             alert("YOU HAVE REACHED THE END OF THE MAZE!");

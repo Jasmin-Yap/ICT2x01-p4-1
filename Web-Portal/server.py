@@ -2,6 +2,7 @@ import sys, logging
 from flask import Flask, render_template, redirect
 from controllers import connection_controller, scoreboard_controller, dashboard_controller, token_controller, maze_controller
 
+
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
 app = Flask(__name__)
@@ -18,6 +19,7 @@ def EndSession():
     token_controller.clear_token()
     maze_controller.clear_custom_mazes()
     return redirect('/')
+
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8000, debug=True)
