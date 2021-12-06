@@ -84,35 +84,7 @@
                         <th>Time</th>
                         <th>Instruction</th>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>15:30</td>
-                            <td>Forward</td>
-                        </tr>
-                        <tr>
-                            <td>15:30</td>
-                            <td>Left</td>
-                        </tr>
-                        <tr>
-                            <td>15:20</td>
-                            <td>Forward</td>
-                        </tr>
-                        <tr>
-                            <td>15:20</td>
-                            <td>Back</td>
-                        </tr>
-                        <tr>
-                            <td>15:20</td>
-                            <td>Back</td>
-                        </tr>
-                        <tr>
-                            <td>15:20</td>
-                            <td>Back</td>
-                        </tr>
-                        <tr>
-                            <td>15:20</td>
-                            <td>Back</td>
-                        </tr>
+                    <tbody id="historical">
                     </tbody>
                 </table>
             </div>
@@ -160,14 +132,14 @@
             <div id="blocklyDiv" style="height: 22rem; width: 40rem 100%;"></div>
             <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
                 <category name="Logic">
-                    <block type="forward"></block>
+                   <block type="Forward"></block>
+                    <block type="Back"></block>
                     <block type="Left"></block>
                     <block type="Right"></block>
                     <block type="controls_repeat_ext"></block>
                     <block type="math_number">
                         <field name="NUM">1</field>
                     </block>
-
                 </category>
             </xml>
             </div>
@@ -247,6 +219,7 @@
     var maze_list;
     var startpoint;
     var endpoint;
+    var noOfInstructionsSent = 0;
     // direction the car is facing
     // 0 = north, 1 = east, 2 = south, 3 = west
     var carface = 0;
@@ -268,7 +241,11 @@
                     option.innerHTML = result[i]['maze_ID'];
                     option.href = "#";
                     option.id = i;
-                    option.addEventListener('click', function(){changeMaze(this.id);});
+                    option.addEventListener('click', function(){
+                        noOfInstructionsSent = 0;
+                        carface = 0;
+                        changeMaze(this.id);
+                    });
                     document.getElementById("dropdownMenuOptions").append(option);
                 }
             },
@@ -308,10 +285,11 @@
         var code = (Blockly.JavaScript.workspaceToCode(demoWorkspace)).split(";\n");
         code.pop();
         var sendInstruction = true;
+        var atEndPoint = false;
         for(var i=0; i<code.length; i++){
             var cargrid = (document.getElementsByClassName("car"))[0]
             var carpos = cargrid.id;
-            var newpos = carpos.split("-").map(Number)
+            var newpos = carpos.split("-").map(Number);
             if((code[i] == "Left" && carface == 1) || (code[i] == "Right" && carface == 3)){
                 carface = 0;
             }else if((code[i] == "Left" && carface == 2) || (code[i] == "Right" && carface == 0)){
@@ -326,7 +304,7 @@
                         newpos[0] -= 1;
                         break;
                     case 1:
-                        newpos[1] = newpos[1] + 1;
+                        newpos[1] += 1;
                         break;
                     case 2:
                         newpos[0] += 1;
@@ -345,8 +323,8 @@
                     newposelement.classList = "";
                     newposelement.classList.add("car");
                     if(newposid == endpoint){
-                        alert("YOU HAVE REACHED THE END OF THE MAZE!");
-                        location.reload();
+                        atEndPoint = true;
+                        break;
                     }
                 }else{
                     alert("You will crash the car " + String.fromCodePoint(0x1F613) + "\nServer refuses to execute!");
@@ -362,7 +340,34 @@
         if(sendInstruction){
             check_flag();
             sendBlockValues(code);
+            noOfInstructionsSent += code.length;
+            console.log(noOfInstructionsSent);
         }
+        if(atEndPoint){
+            alert("YOU HAVE REACHED THE END OF THE MAZE!");
+            updateScoreboard(noOfInstructionsSent);
+        }
+    }
+
+    function updateScoreboard(score){
+        var today = new Date();
+        var date = today.getDate() + "-" + today.getMonth() + "-" + today.getFullYear("yy");
+        var mazeid = document.getElementById("mazeID").innerHTML;
+        data = {'mazeID':mazeid, 'date':date, 'score':score};
+        $.ajax({
+            url: "/updateScoreboard",
+            data: JSON.stringify(data),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function(result) {
+                console.log(result);
+            },
+            error: function (req, status, err){
+                console.log('Something went wrong', status, err);
+            }
+        });
+        location.reload();
     }
 </script>
 
@@ -373,6 +378,16 @@
 <script src="./static/js/msg/js/en.js"></script>
 <script src="./static/js/blockly.js"></script>
 <script>
+    //Get the current time
+    var today = new Date();
+    
+    //Formatting the time to ensure that there are 2 digits for the hours
+    if(today.getHours()<10)
+        var time = "0" + today.getHours() + ":" + today.getMinutes();
+    else
+        var time = today.getHours() + ":" + today.getMinutes();
+
+
     var demoWorkspace = Blockly.inject('blocklyDiv',
     {media: './static/media/',
     maxBlocks: 5,
@@ -386,17 +401,17 @@
     }
 
     function runCode() {
-    // Generate JavaScript code and run it.
-    window.LoopTrap = 1000;
-    Blockly.JavaScript.INFINITE_LOOP_TRAP =
-      'if (--window.LoopTrap == 0) throw "Infinite loop.";\n';
-    var code = Blockly.JavaScript.workspaceToCode(demoWorkspace);
-    Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
-    try {
-        eval(code);
-    } catch (e) {
-        alert(e);
-    }
+        // Generate JavaScript code and run it.
+        window.LoopTrap = 1000;
+        Blockly.JavaScript.INFINITE_LOOP_TRAP =
+        'if (--window.LoopTrap == 0) throw "Infinite loop.";\n';
+        var code = Blockly.JavaScript.workspaceToCode(demoWorkspace);
+        Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+        try {
+            eval(code);
+        } catch (e) {
+            alert(e);
+        }
     }
     function onchange(event) {
       document.getElementById('capacity').textContent =
@@ -413,10 +428,16 @@
             contentType: "application/json",
             dataType: "json",
             success: function(result) {
-                alert('Commands sent!');
+                var tr = document.createElement('tr');
+                for (var c=0;c<1;++c){
+                var celltime = tr.appendChild(document.createElement('td'));
+                var cell = tr.appendChild(document.createElement('td'));
+                celltime.innerHTML = time;
+                cell.innerHTML = data['instructions'];
+            }
+            document.getElementById("historical").append(tr);
             },
             error: function (req, status, err){
-                 console.log('Something went wrong', status, err);
             }
         });
         // stop link reloading the page

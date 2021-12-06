@@ -99,7 +99,7 @@ connection_page = Blueprint('connection_page', __name__)
 @connection_page.route('/connection', methods=['GET', 'POST'])
 def connectionPage():
     if request.method == 'POST':
-        token_controller.generate_token()
+        token_controller.generate_token(request.form['studentName'])
         connect_to_car(request.form['ipInput'], request.form['portInput'])
         address = "http://" + conn.get_ip() + ":" + conn.get_port() + "/"
         testDat = {'ISN': 0, 'TOK': token_controller.get_token(), 'E': '#'}
