@@ -55,9 +55,29 @@ flask run
 - Only merge pull requests from dev branch
 - feature and integration brnaches cannot merge with main
 
-## "User Acceptance Testing"
+## Blackbox Testing: User Acceptance Testing
 ### Blackbox Testing Video
 Please find the video of blackbox test execution here &#8594; https://youtu.be/wo8pbCe2cAM
+
+### How is the test executed?
+Our Blackbox testing is done based on functional testing. This means that we will go through the web application to test on the functional requirements.
+We based our tests on the test cases we have made on M2. To have a better flow and idea of the Blackbox testing, we have made an updated test case table.
+The steps are elaborated through in the video.
+
+### Updated Test Cases
+| Testcase ID    | Description     | Pre-condition    | Expected Result    |
+| ------------- | ------------- | ------------- | ------------- |
+| 1 | Navigate to web portal  | In a web browser  |  Observe the connection page up and running.  |
+| 2 | Input for establishing connection  |  In connection page  | Correct input should allow entry to dashboard, while wrong input should display an error message on specified field. |
+| 3 | Establish a connection  | In connection page  | Entering the dashboard page. Being able to observe the dashboard. |
+| 4 | Navigate through all pages  | In dashboard page | Navigate through the dashboard smoothly. |
+| 5 | Data on dashboard (empty)  | In dashboard page  |  Observe the dashboard with no data shown or set to 0 accordingly. |
+| 6 | Send Instructions to Robotic Car  | In dashboard page  | Able to send instructions through the control panel by dragging & dropping and clicking of the buttons accordingly. |
+| 7 | Data on dashboard (filled/not-empty)  | In dashboard page  |  Observe the data changes on the dashboard page. |
+| 8 | Creating a maze  | In maze creator page  | Able to click on the maze creation sections and create a maze when all requirements are fulfilled (Having a start point, line trail and an end point). Error message shown when maze creation lacks any requirement. |
+| 9 | Viewing the scoreboard | In scoreboard page | View the scoreboard with the least amount of moves as the top score. View the different scores based on the maze. |
+| 10 | Ending the connection and closing web portal | In any page with the side menu bar shown  | Observe return to connection page, exiting the page in pre-condition. |  
+
 
 ## Whitebox Testing: Token Controller
 ### Why Token Controller?
