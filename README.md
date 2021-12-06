@@ -71,7 +71,7 @@ The test is done in two parts. The first is automated using unittest and tests t
 
 ### Code Coverage
 A Code coverage report was generated for the automated part of the test:
-![code coverage](https://github.com/Jasmin-Yap/ICT2x01-p4-1/blob/dev/resources/coverage-report.png)
+![code coverage](https://github.com/Jasmin-Yap/ICT2x01-p4-1/blob/dev/resources/coverage-report.jpg)
 
 ### Whitebox Testing Execution
 Please find the video of whitebox test execution here -> https://youtu.be/bYw37OdO3Rs
