@@ -1,12 +1,12 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect
 from models.scoreboard import Scoreboard
+from controllers import token_controller
 import pandas as pd
 import os
 import logging
 
 
 scoreboard_page = Blueprint('scoreboard_page', __name__)
-
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
 
@@ -41,55 +41,20 @@ def sort_top_5(csv_data):
 def validate_data(data, scoreboard_object):
     logging.info('Starting validation!')
     flag = 0
-    if len(data) == 0:
-        flag = 1
-        logging.info('0 row detected! Appending required data')
-        add_data = pd.DataFrame({
-            'Name': ['-', '-', '-', '-', '-'],
-            'Date': ['-', '-', '-', '-', '-'],
-            'Score': ['-', '-', '-', '-', '-']
-        })
-        data = data.append(add_data, ignore_index=True)
-    elif len(data) == 1:
-        flag = 1
-        logging.info('1 row detected! Appending required data')
-        add_data = pd.DataFrame({
-            'Name': ['-', '-', '-', '-'],
-            'Date': ['-', '-', '-', '-'],
-            'Score': ['-', '-', '-', '-']
-        })
-        data = data.append(add_data, ignore_index=True)
-    elif len(data) == 2:
-        flag = 1
-        logging.info('2 row detected! Appending required data')
-        add_data = pd.DataFrame({
-            'Name': ['-', '-', '-'],
-            'Date': ['-', '-', '-'],
-            'Score': ['-', '-', '-']
-        })
-        data = data.append(add_data, ignore_index=True)
-    elif len(data) == 3:
-        flag = 1
-        logging.info('3 row detected! Appending required data')
-        add_data = pd.DataFrame({
-            'Name': ['-', '-'],
-            'Date': ['-', '-'],
-            'Score': ['-', '-']
-        })
-        data = data.append(add_data, ignore_index=True)
-
-    elif len(data) == 4:
-        flag = 1
-        logging.info('4 row detected! Appending required data')
-        add_data = pd.DataFrame({
-            'Name': ['-'],
-            'Date': ['-'],
-            'Score': ['-']
-        })
-        data = data.append(add_data, ignore_index=True)
-    else:
-        logging.info('No missing data!')
-        logging.info('Validation completed!')
+    name_array = []
+    date_array = []
+    score_array = []
+    for i in range(5 - len(data)):
+        logging.info('Appending required data, row', 1)
+        name_array.append('-')
+        date_array.append('-')
+        score_array.append('-')
+    add_data = pd.DataFrame({
+        'Name': name_array,
+        'Date': date_array,
+        'Score': score_array
+    })
+    data = data.append(add_data, ignore_index=True)
     if flag == 1:
         logging.info('Append success!')
         logging.info('Validation completed!')
@@ -97,48 +62,6 @@ def validate_data(data, scoreboard_object):
     scoreboard_object.set_date(data)
     scoreboard_object.set_score(data)
     return data
-
-
-def scoreboard_test(path_no_file, path_no_data, path_1_data, path_2_data, path_multiple_data):
-    logging.info('')
-    logging.info('Scoreboard test initiated!')
-
-    logging.info('')
-    logging.info('Test case: No data file - INITIATED!')
-    validate_data(get_csv(path_no_file))
-    logging.info('Removing dummy file!')
-    os.remove(path_no_file)
-    logging.info('Dummy file removed!')
-    logging.info('Test case: No data file - COMPLETED!')
-
-    logging.info('')
-    logging.info('Test case: Empty data file - INITIATED!')
-    logging.info('Using dummy file!')
-    validate_data(get_csv(path_no_data))
-    logging.info('Test case: Empty data file - COMPLETED!')
-
-    logging.info('')
-    logging.info('Test case: 1 data file - INITIATED!')
-    logging.info('Using dummy file!')
-    validate_data(get_csv(path_1_data))
-    logging.info('Test case: 1 data file - COMPLETED!')
-
-    logging.info('')
-    logging.info('Test case: 2 data file - INITIATED!')
-    logging.info('Using dummy file!')
-    validate_data(get_csv(path_2_data))
-    logging.info('Test case: 2 data file - COMPLETED!')
-
-    logging.info('')
-    logging.info('Test case: Multiple data file - INITIATED!')
-    logging.info('Using dummy file!')
-    validate_data(get_csv(path_multiple_data))
-    logging.info('Test case: Multiple data file - COMPLETED!')
-
-    logging.info('')
-    logging.info('Scoreboard test completed!')
-    logging.info('')
-    return None
 
 
 def scoreboard_data(scoreboard_maze):
@@ -167,16 +90,11 @@ def scoreboard_data(scoreboard_maze):
 
 @scoreboard_page.route('/scoreboard')
 def display_scoreboard():
+    if not token_controller.check_token():
+        return redirect('/')
     scoreboards = [Scoreboard(), Scoreboard(), Scoreboard()]
-    paths = ['./static/data/maze_1.csv', './static/data/maze_2.csv', './static/data/maze_3.csv']
+    paths = ['./static/data/data0.csv', './static/data/maze_2.csv', './static/data/maze_3.csv']
     scoreboard_data_to_html = []
-    path_no_file = './static/data/dummy.csv'
-    path_no_data = './static/data/data0.csv'
-    path_1_data = './static/data/data1.csv'
-    path_2_data = './static/data/data2.csv'
-    path_multiple_data = './static/data/data999.csv'
-
-    # scoreboard_test(path_no_file, path_no_data, path_1_data, path_2_data, path_multiple_data)
     logging.info('Running scoreboard!')
     for scoreboard_object, path_to_data in zip(scoreboards, paths):
         validate_data(sort_top_5(get_csv(path_to_data, scoreboard_object)), scoreboard_object)

@@ -1,10 +1,10 @@
-from flask import Blueprint, render_template, Flask, request, jsonify
+from flask import Blueprint, render_template, jsonify, request, redirect, Flask
 from controllers import token_controller, connection_controller, maze_controller
 from models import blockly
 import random
 
-dashboard_page = Blueprint('dashboard_page', __name__)
 block_arr = []
+studentName = ''
 
 
 def get_stats(data):
@@ -24,18 +24,22 @@ def get_instructions():
     return instruction
 
 
+"""
+Routing for dashboard
+"""
+dashboard_page = Blueprint('dashboard_page', __name__)
+
 @dashboard_page.route('/dashboard', methods=['GET', 'POST'])
-def blocklyPage():
+def dashboard():
+    if not token_controller.check_token():
+        return redirect('/')
     if request.method == 'POST':
         data = request.get_json()
-        instructions = blockly.Blockly(data['instructions'])
-        #obj.set_instructions(get_instructions(data['instructions']))
-        #connection_controller.send_instruction(obj)
+        connection_controller.send_instruction(data['instructions'])
         result = {'processed': 'true'}
         return jsonify(result)
-    token_controller.generate_token()
-    return render_template('dashboard.html', data=get_instructions(), render_stats=get_stats(0))
 
+    return render_template('dashboard.html', data=get_instructions())
 
 @dashboard_page.route('/MazeData')
 def getMazeDate():
