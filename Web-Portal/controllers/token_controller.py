@@ -7,8 +7,9 @@ auth_token = Token()
 """
 generating token using secrets
 """
-def generate_token():
+def generate_token(studentName):
     auth_token.set_token(secrets.token_urlsafe(16))
+    auth_token.set_studentName(studentName)
     return auth_token.get_token()
 
 """
@@ -16,6 +17,12 @@ retrieving token
 """
 def get_token():
     return auth_token.get_token()
+
+"""
+retrieving student name
+"""
+def get_studentName():
+    return auth_token.get_studentName()
 
 """
 check if token exists
@@ -37,3 +44,4 @@ clear the token
 """
 def clear_token():
     auth_token.set_token(None)
+    auth_token.set_studentName(None)

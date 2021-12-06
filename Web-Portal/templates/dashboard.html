@@ -186,6 +186,7 @@
     var maze_list;
     var startpoint;
     var endpoint;
+    var noOfInstructionsSent = 0;
     // direction the car is facing
     // 0 = north, 1 = east, 2 = south, 3 = west
     var carface = 0;
@@ -207,7 +208,11 @@
                     option.innerHTML = result[i]['maze_ID'];
                     option.href = "#";
                     option.id = i;
-                    option.addEventListener('click', function(){changeMaze(this.id);});
+                    option.addEventListener('click', function(){
+                        noOfInstructionsSent = 0;
+                        carface = 0;
+                        changeMaze(this.id);
+                    });
                     document.getElementById("dropdownMenuOptions").append(option);
                 }
             },
@@ -247,10 +252,11 @@
         var code = (Blockly.JavaScript.workspaceToCode(demoWorkspace)).split(";\n");
         code.pop();
         var sendInstruction = true;
+        var atEndPoint = false;
         for(var i=0; i<code.length; i++){
             var cargrid = (document.getElementsByClassName("car"))[0]
             var carpos = cargrid.id;
-            var newpos = carpos.split("-").map(Number)
+            var newpos = carpos.split("-").map(Number);
             if((code[i] == "Left" && carface == 1) || (code[i] == "Right" && carface == 3)){
                 carface = 0;
             }else if((code[i] == "Left" && carface == 2) || (code[i] == "Right" && carface == 0)){
@@ -265,7 +271,7 @@
                         newpos[0] -= 1;
                         break;
                     case 1:
-                        newpos[1] = newpos[1] + 1;
+                        newpos[1] += 1;
                         break;
                     case 2:
                         newpos[0] += 1;
@@ -284,8 +290,8 @@
                     newposelement.classList = "";
                     newposelement.classList.add("car");
                     if(newposid == endpoint){
-                        alert("YOU HAVE REACHED THE END OF THE MAZE!");
-                        location.reload();
+                        atEndPoint = true;
+                        break;
                     }
                 }else{
                     alert("You will crash the car " + String.fromCodePoint(0x1F613) + "\nServer refuses to execute!");
@@ -300,7 +306,34 @@
         }
         if(sendInstruction){
             sendBlockValues(code);
+            noOfInstructionsSent += code.length;
+            console.log(noOfInstructionsSent);
         }
+        if(atEndPoint){
+            alert("YOU HAVE REACHED THE END OF THE MAZE!");
+            updateScoreboard(noOfInstructionsSent);
+        }
+    }
+
+    function updateScoreboard(score){
+        var today = new Date();
+        var date = today.getDate() + "-" + today.getMonth() + "-" + today.getFullYear("yy");
+        var mazeid = document.getElementById("mazeID").innerHTML;
+        data = {'mazeID':mazeid, 'date':date, 'score':score};
+        $.ajax({
+            url: "/updateScoreboard",
+            data: JSON.stringify(data),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function(result) {
+                console.log(result);
+            },
+            error: function (req, status, err){
+                console.log('Something went wrong', status, err);
+            }
+        });
+        location.reload();
     }
 </script>
 
@@ -324,17 +357,17 @@
     }
 
     function runCode() {
-    // Generate JavaScript code and run it.
-    window.LoopTrap = 1000;
-    Blockly.JavaScript.INFINITE_LOOP_TRAP =
-      'if (--window.LoopTrap == 0) throw "Infinite loop.";\n';
-    var code = Blockly.JavaScript.workspaceToCode(demoWorkspace);
-    Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
-    try {
-        eval(code);
-    } catch (e) {
-        alert(e);
-    }
+        // Generate JavaScript code and run it.
+        window.LoopTrap = 1000;
+        Blockly.JavaScript.INFINITE_LOOP_TRAP =
+        'if (--window.LoopTrap == 0) throw "Infinite loop.";\n';
+        var code = Blockly.JavaScript.workspaceToCode(demoWorkspace);
+        Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+        try {
+            eval(code);
+        } catch (e) {
+            alert(e);
+        }
     }
     function onchange(event) {
       document.getElementById('capacity').textContent =
