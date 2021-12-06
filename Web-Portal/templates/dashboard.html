@@ -253,6 +253,21 @@
                         newpos[1] -= 1;
                         break;
                 }
+            }else if(code[i] == "Back"){
+                switch(carface){
+                    case 0:
+                        newpos[0] += 1;
+                        break;
+                    case 1:
+                        newpos[1] -= 1;
+                        break;
+                    case 2:
+                        newpos[0] -= 1;
+                        break;
+                    case 3:
+                        newpos[1] += 1;
+                        break;
+                }
             }
             var newposid = newpos[0]+"-"+newpos[1];
             var newposelement = document.getElementById(newposid);
