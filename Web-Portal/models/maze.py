@@ -8,3 +8,5 @@ class Maze:
         return self.__maze_ID
     def update_maze(self, updatedMap):
         self.__map = updatedMap
+    def toJSON(self):
+        return {"maze_ID":self.__maze_ID, "map":self.__map}
