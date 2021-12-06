@@ -36,7 +36,6 @@ def send_instruction(instructions):
     index = 0
     count = 0
     count2 = 0
-    print(instructions)
     for instruction in instructions:
         if instruction == 'Forward' or instruction == '  Forward' or instruction == '}\nForward':
             cleaned_instructions.append('f')
@@ -83,13 +82,13 @@ def send_instruction(instructions):
     testDat['TOK'] = token_controller.get_token()
     testDat['E'] = '#'
 
-    print(cleaned_instructions)
-
     r = "200"
     if r == "200":
         r = token_controller.get_token()
         if token_controller.verify_token(r):
-            print("Verified")
+            return true
+
+    return false
 
 
 """
@@ -110,8 +109,6 @@ def connectionPage():
 
         if r == "200":
             r = token_controller.get_token()
-            print(r)
-            print(token_controller.get_token())
             if token_controller.verify_token(r):
                 return render_template('dashboard.html')
 
