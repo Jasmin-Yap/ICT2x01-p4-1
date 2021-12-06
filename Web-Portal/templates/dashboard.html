@@ -88,35 +88,7 @@
                         <th>Time</th>
                         <th>Instruction</th>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>15:30</td>
-                            <td>Forward</td>
-                        </tr>
-                        <tr>
-                            <td>15:30</td>
-                            <td>Left</td>
-                        </tr>
-                        <tr>
-                            <td>15:20</td>
-                            <td>Forward</td>
-                        </tr>
-                        <tr>
-                            <td>15:20</td>
-                            <td>Back</td>
-                        </tr>
-                        <tr>
-                            <td>15:20</td>
-                            <td>Back</td>
-                        </tr>
-                        <tr>
-                            <td>15:20</td>
-                            <td>Back</td>
-                        </tr>
-                        <tr>
-                            <td>15:20</td>
-                            <td>Back</td>
-                        </tr>
+                    <tbody id="historical">
                     </tbody>
                 </table>
             </div>
@@ -164,14 +136,14 @@
             <div id="blocklyDiv" style="height: 22rem; width: 40rem 100%;"></div>
             <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
                 <category name="Logic">
-                    <block type="forward"></block>
+                   <block type="Forward"></block>
+                    <block type="Back"></block>
                     <block type="Left"></block>
                     <block type="Right"></block>
                     <block type="controls_repeat_ext"></block>
                     <block type="math_number">
                         <field name="NUM">1</field>
                     </block>
-
                 </category>
             </xml>
             </div>
@@ -344,6 +316,16 @@
 <script src="./static/js/msg/js/en.js"></script>
 <script src="./static/js/blockly.js"></script>
 <script>
+    //Get the current time
+    var today = new Date();
+    
+    //Formatting the time to ensure that there are 2 digits for the hours
+    if(today.getHours()<10)
+        var time = "0" + today.getHours() + ":" + today.getMinutes();
+    else
+        var time = today.getHours() + ":" + today.getMinutes();
+
+
     var demoWorkspace = Blockly.inject('blocklyDiv',
     {media: './static/media/',
     maxBlocks: 5,
@@ -384,10 +366,16 @@
             contentType: "application/json",
             dataType: "json",
             success: function(result) {
-                alert('Commands sent!');
+                var tr = document.createElement('tr');
+                for (var c=0;c<1;++c){
+                var celltime = tr.appendChild(document.createElement('td'));
+                var cell = tr.appendChild(document.createElement('td'));
+                celltime.innerHTML = time;
+                cell.innerHTML = data['instructions'];
+            }
+            document.getElementById("historical").append(tr);
             },
             error: function (req, status, err){
-                 console.log('Something went wrong', status, err);
             }
         });
         // stop link reloading the page

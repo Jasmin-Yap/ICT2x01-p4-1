@@ -1,7 +1,20 @@
-Blockly.Blocks['forward'] = {
+Blockly.Blocks['Forward'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("move forward");
+        .appendField("Move Forward");
+    this.setInputsInline(false);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['Back'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Move Backward");
     this.setInputsInline(false);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -14,8 +27,7 @@ Blockly.Blocks['forward'] = {
 Blockly.Blocks['Right'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField(new Blockly.FieldTextInput("Turn"), "NAME")
-        .appendField(new Blockly.FieldDropdown([["Right","Right "], ["Left","Left"]]), "Turn");
+        .appendField("Move Right");
     this.setInputsInline(false);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -28,8 +40,7 @@ Blockly.Blocks['Right'] = {
 Blockly.Blocks['Left'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField(new Blockly.FieldTextInput("Turn"), "NAME")
-        .appendField(new Blockly.FieldDropdown([["Left","Left"], ["Right","Right "]]), "Turn");
+        .appendField("Move Left");
     this.setInputsInline(false);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -39,26 +50,21 @@ Blockly.Blocks['Left'] = {
   }
 };
 
-Blockly.JavaScript['forward'] = function(block) {
-  // TODO: Assemble JavaScript into code variable.
-  //var code = "document.getElementById('circle').value = "Forward";"
-  //return code;
+
+
+Blockly.JavaScript['Forward'] = function(block) {
   return 'Forward;\n';
 };
 
+Blockly.JavaScript['Back'] = function(block) {
+  return 'Back;\n';
+};
+
 Blockly.JavaScript['Right'] = function(block) {
-  // TODO: Assemble JavaScript into code variable.
-  //var code = block.getFieldValue('Turn');
-  //var code = "document.getElementById('circle').value = "Forward";"
-  //return code;
-  //return 'Right(\'block_id_' + block.id + '\');\n';
   return 'Right;\n';
 };
 
 Blockly.JavaScript['Left'] = function(block) {
-  // TODO: Assemble JavaScript into code variable.
-  //var code = "document.getElementById('circle').value = "Forward";"
-  //return code;
   return 'Left;\n';
 };
 
