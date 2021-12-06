@@ -33,7 +33,7 @@ Send instructions
 """
 def send_instruction(instructions):
     cleaned_instructions = []
-    index = 0;
+    index = 0
     count = 0
     count2 = 0
     print(instructions)
@@ -55,38 +55,22 @@ def send_instruction(instructions):
                     else:
                         count2 *= int(instruction[index:index+1])
                     count += 1
-            if instruction[28:29] != ' ':
-                if "Forward" in instruction:
-                    if count2 == 0:
-                        cleaned_instructions.append('F' + instruction[28:29])
-                    else:
-                        cleaned_instructions.append('F' + str(count2))
-                elif "Left" in instruction:
-                    if count2 == 0:
-                        cleaned_instructions.append('L' + instruction[28:29])
-                    else:
-                        cleaned_instructions.append('L' + str(count2))
-                elif "Right" in instruction:
-                    if count2 == 0:
-                        cleaned_instructions.append('R' + instruction[28:29])
-                    else:
-                        cleaned_instructions.append('R' + str(count2))
-            else:
-                if "Forward" in instruction:
-                    if count2 == 0:
-                        cleaned_instructions.append('F' + instruction[28:29])
-                    else:
-                        cleaned_instructions.append('F' + str(count2))
-                elif "Left" in instruction:
-                    if count2 == 0:
-                        cleaned_instructions.append('L' + instruction[28:29])
-                    else:
-                        cleaned_instructions.append('L' + str(count2))
-                elif "Right" in instruction:
-                    if count2 == 0:
-                        cleaned_instructions.append('R' + instruction[28:29])
-                    else:
-                        cleaned_instructions.append('R' + str(count2))
+
+            if "Forward" in instruction:
+                if count2 == 0:
+                    cleaned_instructions.append('F' + instruction[28:29])
+                else:
+                    cleaned_instructions.append('F' + str(count2))
+            elif "Left" in instruction:
+                if count2 == 0:
+                    cleaned_instructions.append('L' + instruction[28:29])
+                else:
+                    cleaned_instructions.append('L' + str(count2))
+            elif "Right" in instruction:
+                if count2 == 0:
+                    cleaned_instructions.append('R' + instruction[28:29])
+                else:
+                    cleaned_instructions.append('R' + str(count2))
 
     address = "http://" + conn.get_ip() + ":" + conn.get_port() + "/"
     testDat = {'ISN': 1}
@@ -99,16 +83,12 @@ def send_instruction(instructions):
     testDat['TOK'] = token_controller.get_token()
     testDat['E'] = '#'
 
-    # r = "200"
-    r = requests.post(address, testDat)
-    print(token_controller.get_token())
-    print(r.status_code)
+    print(cleaned_instructions)
 
-    # if r == "200":
-    if r.status_code == 200:
-        # r = token_controller.get_token()
-        r = requests.get(address, params={"type": "T"})
-        if token_controller.verify_token(r.text):
+    r = "200"
+    if r == "200":
+        r = token_controller.get_token()
+        if token_controller.verify_token(r):
             print("Verified")
 
 
@@ -126,19 +106,13 @@ def connectionPage():
 
         address = "http://" + conn.get_ip() + ":" + conn.get_port() + "/"
         testDat = {'ISN': 0, 'TOK': token_controller.get_token(), 'E': '#'}
-        #r = "200"
-        r = requests.post(address, testDat)
-        print(token_controller.get_token())
-        print(r.status_code)
+        r = "200"
 
-        #if r == "200":
-        if r.status_code == 200:
-            #r = token_controller.get_token()
-            r = requests.get(address, params={"type": "T"})
-            print(r.text)
+        if r == "200":
+            r = token_controller.get_token()
+            print(r)
             print(token_controller.get_token())
-            if token_controller.verify_token(r.text):
-                print("Verified")
+            if token_controller.verify_token(r):
                 return render_template('dashboard.html')
 
     disconnect()
