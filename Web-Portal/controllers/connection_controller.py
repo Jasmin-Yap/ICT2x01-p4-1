@@ -83,9 +83,9 @@ def send_instruction(instructions):
     if r == "200":
         r = token_controller.get_token()
         if token_controller.verify_token(r):
-            return true
+            return True
 
-    return false
+    return False
 
 
 """

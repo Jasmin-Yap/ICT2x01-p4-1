@@ -157,7 +157,7 @@
                         <h4 class="text-danger">You have <span id="capacity"></span> block(s) left.</h4>
                     </div>
                     <div class="col">
-                        <button class="btn btn-primary" onclick="sendBlockValues()">Send Commands!</button>
+                        <button class="btn btn-primary" onclick="updateLiveMap()">Send Commands!</button>
                         <button class="btn" onclick="showCode()">Show Commands</button>
                     </div>
                 </div>
@@ -243,7 +243,10 @@
         document.getElementById("maze").append(grid);
     }
 
-    function updateLiveMap(code){
+    function updateLiveMap(){
+        var code = (Blockly.JavaScript.workspaceToCode(demoWorkspace)).split(";\n");
+        code.pop();
+        var sendInstruction = true;
         for(var i=0; i<code.length; i++){
             var cargrid = (document.getElementsByClassName("car"))[0]
             var carpos = cargrid.id;
@@ -285,14 +288,18 @@
                         location.reload();
                     }
                 }else{
-                    alert("You have crashed the car " + String.fromCodePoint(0x1F613));
+                    alert("You will crash the car " + String.fromCodePoint(0x1F613) + "\nServer refuses to execute!");
+                    sendInstruction = false;
                     break;
                 }
             } else{
-                alert("OUT OF BOUNDS!");
+                alert("OUT OF BOUNDS!\nServer refuses to execute!");
+                sendInstruction = false;
                 break;
             }
-            
+        }
+        if(sendInstruction){
+            sendBlockValues(code);
         }
     }
 </script>
@@ -334,11 +341,7 @@
           demoWorkspace.remainingCapacity();
     }
 
-    function sendBlockValues() {
-        var code = (Blockly.JavaScript.workspaceToCode(demoWorkspace)).split(";\n");
-        code.pop();
-        console.log(code);
-
+    function sendBlockValues(code) {
         var data = {'instructions':code};
         // ajax the JSON to the server
         $.ajax({
@@ -349,7 +352,6 @@
             dataType: "json",
             success: function(result) {
                 alert('Commands sent!');
-                updateLiveMap(code);
             },
             error: function (req, status, err){
                  console.log('Something went wrong', status, err);
