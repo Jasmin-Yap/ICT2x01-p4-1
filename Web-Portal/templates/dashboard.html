@@ -318,7 +318,13 @@
 <script>
     //Get the current time
     var today = new Date();
-    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    
+    //Formatting the time to ensure that there are 2 digits for the hours
+    if(today.getHours()<10)
+        var time = "0" + today.getHours() + ":" + today.getMinutes();
+    else
+        var time = today.getHours() + ":" + today.getMinutes();
+
 
     var demoWorkspace = Blockly.inject('blocklyDiv',
     {media: './static/media/',
