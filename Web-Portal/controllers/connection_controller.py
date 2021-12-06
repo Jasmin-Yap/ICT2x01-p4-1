@@ -1,5 +1,5 @@
 from models.connection import Connection
-from controllers import connection_controller, token_controller, maze_controller
+from controllers import connection_controller, token_controller, maze_controller, dashboard_controller
 from flask import Flask, render_template, request, Blueprint, redirect
 import requests
 
@@ -12,11 +12,13 @@ def connect_to_car(ip, port):
     conn.set_ip(ip)
     conn.set_port(port)
 
+
 """
 get IP and port for the robotic car
 """
 def get_address():
     return {'ip': conn.get_ip(), 'port': conn.get_port()}
+
 
 """
 clear IP and port
@@ -99,7 +101,6 @@ def connectionPage():
     if request.method == 'POST':
         token_controller.generate_token(request.form['studentName'])
         connect_to_car(request.form['ipInput'], request.form['portInput'])
-
         address = "http://" + conn.get_ip() + ":" + conn.get_port() + "/"
         testDat = {'ISN': 0, 'TOK': token_controller.get_token(), 'E': '#'}
         r = "200"

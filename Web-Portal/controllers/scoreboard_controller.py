@@ -2,31 +2,24 @@ from flask import Blueprint, render_template, redirect, request, jsonify
 from models.scoreboard import Scoreboard
 from controllers import token_controller
 import pandas as pd
-import os
-import logging
 
 
 scoreboard_page = Blueprint('scoreboard_page', __name__)
-logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
 
 def get_csv(path, scoreboard_object):
     while True:
         try:
             scoreboard_object.set_data(path)
-            logging.info('Found data file!')
             return scoreboard_object.get_data()
         except FileNotFoundError:
-            logging.warning('Data file not found! Creating empty data file!')
             csv_data = pd.DataFrame({
                 'Name': ['-', '-', '-', '-', '-'],
                 'Date': ['-', '-', '-', '-', '-'],
                 'Score': ['-', '-', '-', '-', '-']
             })
             csv_data.to_csv(path, index=False)
-            logging.warning('Created empty data file')
             scoreboard_object.set_data(path)
-            logging.warning('Reading newly created data file!')
             return scoreboard_object.get_data()
 
 
@@ -39,12 +32,10 @@ def sort_top_5(csv_data):
 
 
 def validate_data(data, scoreboard_object):
-    logging.info('Starting validation!')
     name_array = []
     date_array = []
     score_array = []
     for i in range(5 - len(data)):
-        logging.info('Appending required data, row', 1)
         name_array.append('-')
         date_array.append('-')
         score_array.append('-')
@@ -91,12 +82,12 @@ def display_scoreboard():
     scoreboards = [Scoreboard(), Scoreboard(), Scoreboard()]
     paths = ['./static/data/maze_1.csv', './static/data/maze_2.csv', './static/data/maze_3.csv']
     scoreboard_data_to_html = []
-    logging.info('Running scoreboard!')
     for scoreboard_object, path_to_data in zip(scoreboards, paths):
         validate_data(sort_top_5(get_csv(path_to_data, scoreboard_object)), scoreboard_object)
         scoreboard_data_to_html.append(scoreboard_data(scoreboard_object))
 
     return render_template('scoreboard.html', scoreboard_py=scoreboard_data_to_html)
+
 
 @scoreboard_page.route('/updateScoreboard', methods=['POST'])
 def update_scoreboard():
