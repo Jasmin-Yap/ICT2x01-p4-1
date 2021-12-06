@@ -34,8 +34,8 @@ instruction_page = Blueprint('instruction_page', __name__)
 @connection_page.route('/')
 @connection_page.route('/connection', methods=['GET', 'POST'])
 def connectionPage():
-    token_controller.check_token()
     if request.method == 'POST':
+        token_controller.generate_token()
         connect_to_car(request.form['ipInput'], request.form['portInput'])
 
         address = "http://" + conn.get_ip() + ":" + conn.get_port() + "/"

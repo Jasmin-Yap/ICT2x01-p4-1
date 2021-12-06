@@ -24,7 +24,7 @@ def check_token():
     if auth_token.get_token() != None:
         return True
     else:
-        generate_token()
+        return False
 
 """
 verify token with token from car

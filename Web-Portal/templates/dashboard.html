@@ -160,7 +160,7 @@
                         <button class="btn" onclick="showCode()">Show Commands</button>
                     </div>
                 </div>
-            <div id="blocklyDiv" style="height: 25rem;"></div>
+            <div id="blocklyDiv" style="height: 22rem;"></div>
             <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
                 <category name="Logic">
                     <block type="forward"></block>
@@ -199,6 +199,7 @@
                     var option = document.createElement("a");
                     option.classList.add("dropdown-item");
                     option.innerHTML = result[i]['maze_ID'];
+                    option.href = "#";
                     option.id = i;
                     option.addEventListener('click', function(){changeMaze(this.id);});
                     document.getElementById("dropdownMenuOptions").append(option);

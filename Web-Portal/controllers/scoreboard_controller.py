@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect
 from models.scoreboard import Scoreboard
+from controllers import token_controller
 import pandas as pd
 import os
 import logging
@@ -167,6 +168,8 @@ def scoreboard_data(scoreboard_maze):
 
 @scoreboard_page.route('/scoreboard')
 def display_scoreboard():
+    if not token_controller.check_token():
+        return redirect('/')
     scoreboards = [Scoreboard(), Scoreboard(), Scoreboard()]
     paths = ['./static/data/maze_1.csv', './static/data/maze_2.csv', './static/data/maze_3.csv']
     scoreboard_data_to_html = []

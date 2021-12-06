@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, jsonify, request
+from flask import Blueprint, render_template, jsonify, request, redirect
 from controllers import token_controller, connection_controller, maze_controller
 from models import blockly
 
@@ -16,6 +16,8 @@ dashboard_page = Blueprint('dashboard_page', __name__)
 
 @dashboard_page.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
+    if not token_controller.check_token():
+        return redirect('/')
     if request.method == 'POST':
         data = request.get_json()
         instructions = blockly.Blockly(data['instructions'])
