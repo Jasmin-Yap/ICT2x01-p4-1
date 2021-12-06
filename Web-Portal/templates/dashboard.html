@@ -344,11 +344,13 @@
                     }
                 }else{
                     alert("You will crash the car " + String.fromCodePoint(0x1F613) + "\nServer refuses to execute!");
+                    noOfInstructionsSent += i + 1;
                     sendInstruction = false;
                     break;
                 }
             } else{
                 alert("OUT OF BOUNDS!\nServer refuses to execute!");
+                noOfInstructionsSent += i + 1;
                 sendInstruction = false;
                 break;
             }
