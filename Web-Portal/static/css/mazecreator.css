@@ -1,0 +1,19 @@
+.dashboardgrid, .grid { margin:1em auto; border-collapse:collapse }
+.grid td {
+    cursor:pointer;
+    width:50px; height:50px;
+    border:2px solid #000;
+}
+.dashboardgrid td{
+    width:40px; height:40px;
+    border:1px solid #000;
+}
+.dashboardgrid td.path, .grid td.path {
+    background-color:grey;
+}
+.dashboardgrid td.start,.grid td.start {
+    background-color:green;
+}
+.dashboardgrid td.end, .grid td.end {
+    background-color:red;
+}

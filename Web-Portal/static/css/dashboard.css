@@ -1,0 +1,21 @@
+.scroll {
+    max-height: 245px;
+    overflow-y: auto;
+}
+.dashboardgrid { margin:1em auto; border-collapse:collapse }
+.dashboardgrid td{
+    width:40px; height:40px;
+    border:1px solid #000;
+}
+.dashboardgrid td.path {
+    background-color:grey;
+}
+.dashboardgrid td.start {
+    background-color:green;
+}
+.dashboardgrid td.end {
+    background-color:red;
+}
+.dashboardgrid td.car{
+    background-color:blue;
+}
