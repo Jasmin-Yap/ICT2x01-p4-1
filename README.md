@@ -17,7 +17,7 @@ pip install -r requirements.txt
 ```
 ## How to run
 1. Navigate to the Web-Portal directory in your choise of console (i.e. command prompt, powershell, etc)
-2. Enter the command below to run the flask program:
+2. Enter the commands below to run the flask program:
 ```
 set FLASK_APP=server.py
 flask run
@@ -69,9 +69,24 @@ The token is also used to verify responses (acknowledgments) and data sent from 
 ### How is the test executed?
 The test is done in two parts. The first is automated using unittest and tests the function calls of the Token Controller. The second part is done manually by verifying the redirect on the web portal when navigating using URL paths.
 
-### Code Coverage
+### unittest
+The file used for the test can be found here &#8594; https://github.com/Jasmin-Yap/ICT2x01-p4-1/blob/dev/Web-Portal/token_test.py
+
+Execution of automated whitebox testing:
+![code coverage](https://github.com/Jasmin-Yap/ICT2x01-p4-1/blob/dev/resources/unittest.jpg)
+
 A Code coverage report was generated for the automated part of the test:
 ![code coverage](https://github.com/Jasmin-Yap/ICT2x01-p4-1/blob/dev/resources/coverage-report.jpg)
 
+### Files Involved
+#### Unittest
+1. https://github.com/Jasmin-Yap/ICT2x01-p4-1/blob/dev/Web-Portal/token_test.py
+2. https://github.com/Jasmin-Yap/ICT2x01-p4-1/blob/dev/Web-Portal/models/token.py
+3. https://github.com/Jasmin-Yap/ICT2x01-p4-1/blob/dev/Web-Portal/controllers/token_controller.py
+#### Manual
+1. https://github.com/Jasmin-Yap/ICT2x01-p4-1/blob/dev/Web-Portal/controllers/dashboard_controller.py &#8594; Lines 32-33 and 45-46
+2. https://github.com/Jasmin-Yap/ICT2x01-p4-1/blob/dev/Web-Portal/controllers/maze_controller.py &#8594; Lines 77-78
+3. https://github.com/Jasmin-Yap/ICT2x01-p4-1/blob/dev/Web-Portal/controllers/scoreboard_controller.py &#8594; Lines 80-81
+
 ### Whitebox Testing Execution
-Please find the video of whitebox test execution here -> https://youtu.be/bYw37OdO3Rs
+Please find the video of whitebox test execution here &#8594; https://youtu.be/bYw37OdO3Rs
