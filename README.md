@@ -71,7 +71,7 @@ The token is also used to verify responses (acknowledgments) and data sent from 
 The test is done in two parts. The first is automated using unittest and tests the function calls of the Token Controller. The second part is done manually by verifying the redirect on the web portal when navigating using URL paths.
 
 ### unittest
-The file used for the test can be found here &#8594; https://github.com/Jasmin-Yap/ICT2x01-p4-1/blob/dev/Web-Portal/token_test.py
+The file used for the test can be found here &#8594; https://github.com/Jasmin-Yap/ICT2x01-p4-1/blob/main/Web-Portal/token_test.py
 
 Execution of automated whitebox testing:
 ![code coverage](https://github.com/Jasmin-Yap/ICT2x01-p4-1/blob/main/resources/unittest.jpg)
