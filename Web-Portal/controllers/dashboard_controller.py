@@ -7,14 +7,12 @@ block_arr = []
 studentName = ''
 
 
-def get_stats(data):
+def get_stats():
     speed = 1
-    distance = data + speed
     stats_to_html = {
         'Speed': speed,
         'Closest': 0,
-        'Line': 'Yes',
-        'Distance': distance
+        'Line': 'Yes'
     }
     return stats_to_html
 
@@ -41,6 +39,7 @@ def dashboard():
 
     return render_template('dashboard.html', data=get_instructions())
 
+
 @dashboard_page.route('/MazeData')
 def getMazeDate():
     return jsonify(maze_controller.get_mazes())
@@ -49,6 +48,4 @@ def getMazeDate():
 @dashboard_page.route('/stats', methods=['POST'])
 def display_dashboard():
     if request.method == "POST":
-        data = request.get_json()
-        results = get_stats(data["Distance"])
-        return jsonify(results)
+        return jsonify(get_stats())
