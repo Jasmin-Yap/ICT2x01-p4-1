@@ -8,7 +8,7 @@ block_arr = []
 
 
 def get_stats(data):
-    speed = random.randrange(3)
+    speed = 1
     distance = data + speed
     stats_to_html = {
         'Speed': speed,

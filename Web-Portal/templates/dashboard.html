@@ -25,6 +25,7 @@
                         </div>
                         <p class="card-category">Speed</p>
                         <h3 class="card-title" id="speed"></h3>
+                        <p id="refresh"></p>
                     </div>
                     <div class="card-footer"></div>
                 </div>
@@ -52,7 +53,7 @@
                             <i class="material-icons">sensors</i>
                         </div>
                         <p class="card-category">On The Line?</p>
-                        <h3 class="card-title">{{render_stats.Line}}
+                        <h3 class="card-title" id="line">
                         </h3>
                     </div>
                     <div class="card-footer"></div>
@@ -175,7 +176,8 @@
 <!-- block for javascripts -->
 <script>
 var distance = 0;
-setInterval(function() {
+var interval;
+interval = setInterval(function() {
     var data = {"Distance": distance};
     $.ajax({
         type: "POST",
@@ -184,13 +186,17 @@ setInterval(function() {
         contentType: "application/json",
         dataType: 'json',
         success: function(result) {
-            document.getElementById("speed").innerHTML = result["Speed"] + " cm/s";
-            document.getElementById("closest").innerHTML = result["Closest"] + " cm";
+            document.getElementById("speed").innerHTML = result["Speed"] + " tile/s";
+            document.getElementById("closest").innerHTML = result["Closest"] + " tile";
+            document.getElementById("line").innerHTML = "Yes";
             distance = distance + result["Speed"];
-            document.getElementById("distance").innerHTML = result["Distance"] + " cm";
+            document.getElementById("distance").innerHTML = result["Distance"] + " tile";
             console.log(result);
         },
         error: function(req, status, err) {
+        document.getElementById("line").innerHTML = "No";
+        document.getElementById("refresh").innerHTML = '<meta http-equiv="refresh" content="60">';
+        clearInterval(interval)
         alert(status, err);
         }
     });
