@@ -77,7 +77,7 @@
         </div>
     </div>
     <div class="col-lg-6">
-        <div class="card">
+        <div class="card" style="height: 280px;">
             <div class="card-header card-header-info">
                 <h4 class="card-title">
                     Historical Instructions</h4>
@@ -136,14 +136,11 @@
             <div id="blocklyDiv" style="height: 22rem; width: 40rem 100%;"></div>
             <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
                 <category name="Logic">
-                   <block type="Forward"></block>
+                    <block type="Forward"></block>
                     <block type="Back"></block>
                     <block type="Left"></block>
                     <block type="Right"></block>
-                    <block type="controls_repeat_ext"></block>
-                    <block type="math_number">
-                        <field name="NUM">1</field>
-                    </block>
+                    <block type="Loop"></block>
                 </category>
             </xml>
             </div>
@@ -223,6 +220,10 @@
     function updateLiveMap(){
         var code = (Blockly.JavaScript.workspaceToCode(demoWorkspace)).split(";\n");
         code.pop();
+        if(code.length == 0){
+            alert("Please enter a command to send to the Robotic Car!");
+            return;
+        }
         var sendInstruction = true;
         var atEndPoint = false;
         for(var i=0; i<code.length; i++){
@@ -279,7 +280,6 @@
         if(sendInstruction){
             sendBlockValues(code);
             noOfInstructionsSent += code.length;
-            console.log(noOfInstructionsSent);
         }
         if(atEndPoint){
             alert("YOU HAVE REACHED THE END OF THE MAZE!");
@@ -328,14 +328,14 @@
 
     var demoWorkspace = Blockly.inject('blocklyDiv',
     {media: './static/media/',
-    maxBlocks: 5,
-     toolbox: document.getElementById('toolbox')});
+        maxBlocks: 5,
+        toolbox: document.getElementById('toolbox')});
 
     function showCode() {
       // Generate JavaScript code and display it.
-      Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
-      var code = Blockly.JavaScript.workspaceToCode(demoWorkspace);
-      alert(code);
+        Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+        var code = Blockly.JavaScript.workspaceToCode(demoWorkspace);
+        alert(code);
     }
 
     function runCode() {
@@ -352,8 +352,8 @@
         }
     }
     function onchange(event) {
-      document.getElementById('capacity').textContent =
-          demoWorkspace.remainingCapacity();
+        document.getElementById('capacity').textContent =
+            demoWorkspace.remainingCapacity();
     }
 
     function sendBlockValues(code) {
@@ -368,12 +368,12 @@
             success: function(result) {
                 var tr = document.createElement('tr');
                 for (var c=0;c<1;++c){
-                var celltime = tr.appendChild(document.createElement('td'));
-                var cell = tr.appendChild(document.createElement('td'));
-                celltime.innerHTML = time;
-                cell.innerHTML = data['instructions'];
-            }
-            document.getElementById("historical").append(tr);
+                    var celltime = tr.appendChild(document.createElement('td'));
+                    var cell = tr.appendChild(document.createElement('td'));
+                    celltime.innerHTML = time;
+                    cell.innerHTML = data['instructions'];
+                }
+                document.getElementById("historical").append(tr);
             },
             error: function (req, status, err){
             }
