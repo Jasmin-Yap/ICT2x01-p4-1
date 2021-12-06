@@ -32,15 +32,19 @@ map3 = [[0,0,0,0,0,0,0,0],
         [1,1,0,0,1,1,1,2],
         [1,0,0,0,0,0,0,0]]
 
-maze_array = [maze.Maze("P1", map1), maze.Maze("P2", map2), maze.Maze("P3", map3)]
+maze_array = [maze.Maze("Maze 1", map1), maze.Maze("Maze 2", map2), maze.Maze("Maze 3", map3)]
 custom_mazes = []
-custom_names = []
+custom_names = ["Maze 1", "Maze 2", "Maze 3"]
 
 """
 function to return the maze array
 """
 def get_mazes():
-	mazes = maze_array + custom_mazes
+	mazes = []
+	for maze in maze_array:
+		mazes.append(maze.toJSON())
+	for maze in custom_mazes:
+		mazes.append(maze.toJSON())
 	return mazes
 
 """
@@ -71,7 +75,7 @@ mazecreator_page = Blueprint("mazecreator_page", __name__)
 def maze_creator():
 	if request.method == 'POST':
 		data = request.get_json()
-		create_custom_maze(data[0]['name'], data[1]['map'])
+		create_custom_maze(data['name'], data['map'])
 		result = {'processed':'true'}
 		return jsonify(result)
 

@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, Flask, request, jsonify
-from controllers import token_controller, connection_controller
+from controllers import token_controller, connection_controller, maze_controller
 from models import blockly
 import random
 
@@ -35,6 +35,11 @@ def blocklyPage():
         return jsonify(result)
     token_controller.generate_token()
     return render_template('dashboard.html', data=get_instructions(), render_stats=get_stats(0))
+
+
+@dashboard_page.route('/MazeData')
+def getMazeDate():
+    return jsonify(maze_controller.get_mazes())
 
 
 @dashboard_page.route('/stats', methods=['POST'])
